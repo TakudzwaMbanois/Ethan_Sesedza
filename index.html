@@ -15,6 +15,17 @@
             --festive-red: #c62828;
             --festive-green: #2e7d32;
         }
+        /* Quick arrow alignment fix */
+.transform.-translate-x-1\/2 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.absolute.bottom-10 {
+    bottom: 40px !important;
+}
 
         /* REMOVE ALL WHITE SPACE */
         * {
@@ -182,6 +193,110 @@
                 padding: 0 0.5rem;
             }
         }
+        /* Optimal Mobile Hero Fix */
+@media (max-width: 768px) {
+    .hero-bg {
+        min-height: 85vh !important;
+        padding-top: 2rem !important;
+        padding-bottom: 2rem !important;
+    }
+    
+    #home .container {
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .hero-bg h1 {
+        font-size: 2rem !important;
+        margin-bottom: 0.75rem !important;
+        line-height: 1.1 !important;
+    }
+    
+    .hero-bg .text-lg {
+        font-size: 1rem !important;
+        margin-bottom: 0.75rem !important;
+    }
+    
+    .hero-bg .text-base {
+        font-size: 0.9rem !important;
+        margin-bottom: 1.5rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    .festive-banner {
+        margin-top: 56px !important;
+        padding: 8px 0 !important;
+    }
+    
+    .festive-banner p {
+        font-size: 0.75rem !important;
+        line-height: 1.2 !important;
+        padding: 0 0.5rem !important;
+    }
+    
+    /* Optimize button spacing */
+    .flex-col.sm\:flex-row {
+        gap: 0.75rem !important;
+    }
+    
+    .space-y-4 {
+        gap: 0.75rem !important;
+    }
+    
+    /* Optimize social icons */
+    .space-x-6 {
+        gap: 1rem !important;
+    }
+    
+    .mt-12 {
+        margin-top: 2rem !important;
+    }
+    
+    .md\:mt-16 {
+        margin-top: 2.5rem !important;
+    }
+    
+    /* Arrow positioning */
+    .bottom-10 {
+        bottom: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-bg {
+        min-height: 80vh !important;
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+    }
+    
+    .hero-bg h1 {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-bg .text-lg {
+        font-size: 0.95rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-bg .text-base {
+        font-size: 0.85rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+    
+    .festive-banner {
+        margin-top: 52px !important;
+        padding: 6px 0 !important;
+    }
+    
+    .festive-banner p {
+        font-size: 0.7rem !important;
+    }
+    
+    .bottom-10 {
+        bottom: 1.5rem !important;
+    }
+}
 
         /* Ensure proper image display */
         img {
@@ -209,6 +324,20 @@
             font-size: 16px;
             min-height: 44px;
         }
+        /* Extra aggressive mobile fix if needed */
+@media (max-width: 768px) {
+    #home .pt-20 {
+        padding-top: 1rem !important;
+    }
+    
+    .hero-bg {
+        min-height: 75vh !important;
+    }
+    
+    .container.mx-auto.px-4 {
+        padding-top: 0.5rem !important;
+    }
+}
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -271,15 +400,22 @@
             <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 fade-in">Christian Artist | Guitarist | Songwriter | Vocalist</p>
             <p class="text-base sm:text-lg max-w-2xl mx-auto mb-8 md:mb-10 fade-in mobile-padding">Blending heartfelt storytelling, acoustic worship, and soul-infused melodies from Zimbabwe</p>
             
-            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 md:space-x-6 fade-in">
-                <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg">
-                    Book for Event
-                </a>
-                <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-semibold transition-all">
-                    Learn More
-                </a>
-            </div>
-            
+            <!-- Buttons with equal sizes -->
+<div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 fade-in">
+    <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg min-w-[200px] text-center">
+        Book for Event
+    </a>
+    <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all min-w-[200px] text-center">
+        Learn More
+    </a>
+</div>
+
+<!-- Perfectly centered arrow -->
+<div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+    <a href="#about" class="text-white animate-bounce flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+        <i class="fas fa-chevron-down text-xl"></i>
+    </a>
+</div>
             <div class="mt-12 md:mt-16 flex justify-center space-x-6 md:space-x-8 fade-in">
                 <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2">
                     <i class="fab fa-youtube"></i>
