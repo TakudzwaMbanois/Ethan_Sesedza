@@ -91,7 +91,7 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.12); 
         }
 
-        /* Festive Banner */
+        /* Festive Banner - FIXED SPACING */
         .festive-banner {
             margin-top: 64px;
             background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
@@ -102,6 +102,7 @@
             z-index: 999;
         }
 
+        /* HERO SECTION - FIXED SPACING */
         .hero-bg {
             background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
                         url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
@@ -109,6 +110,8 @@
             background-position: center;
             background-repeat: no-repeat;
             margin: 0;
+            padding-top: 2rem; /* ADDED SPACING FROM BANNER */
+            padding-bottom: 2rem;
         }
 
         .festive-card {
@@ -193,10 +196,10 @@
                 text-align: center;
             }
             
-            /* Hero section mobile optimizations */
+            /* Hero section mobile optimizations - FIXED SPACING */
             .hero-bg {
                 min-height: 85vh;
-                padding-top: 2rem;
+                padding-top: 2rem; /* SPACING FROM BANNER */
                 padding-bottom: 2rem;
             }
             
@@ -263,7 +266,7 @@
             
             .hero-bg {
                 min-height: 80vh;
-                padding-top: 1.5rem;
+                padding-top: 1.5rem; /* SPACING FROM BANNER */
                 padding-bottom: 1.5rem;
             }
             
@@ -389,7 +392,7 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Hero Section - FIXED SPACING -->
     <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white">
         <div class="container mx-auto px-4 md:px-6 text-center">
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 fade-in">The Unspoken E</h1>
@@ -431,6 +434,7 @@
         </div>
     </section>
 
+    <!-- Rest of the sections remain the same -->
     <!-- About Section -->
     <section id="about" class="bg-white">
         <div class="container mx-auto px-4 md:px-6">
@@ -852,3 +856,4 @@
     </script>
 </body>
 </html>
+
