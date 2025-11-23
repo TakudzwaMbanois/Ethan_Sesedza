@@ -8,137 +8,94 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
+        :root{
             --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
+            --yellow: #F6C23E;
             --dark: #1a252f;
             --festive-red: #c62828;
             --festive-green: #2e7d32;
-            --festive-gold: #ffd700;
         }
-        
-        body {
+
+        /* REMOVE ALL WHITE SPACE */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,body{
+            height: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        body{
             font-family: 'Montserrat', sans-serif;
-            scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background-color: #f8fafc;
+            color: #1f2937;
             overflow-x: hidden;
+            scroll-behavior: smooth;
         }
-        
-        h1, h2, h3, h4 {
+
+        h1,h2,h3,h4{
             font-family: 'Playfair Display', serif;
         }
-        
+
+        /* EXACT SAME NAVBAR AS GALLERY */
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background-color: #1a252f;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+            margin: 0;
+            padding: 12px 0;
+        }
+
+        .nav-scrolled {
+            background-color: #1a252f;
+        }
+
+        /* Animations */
+        .music-icon { animation: pulse 2s infinite; }
+        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+        .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        .card-hover { transition: all .28s ease; }
+        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+
+        /* FESTIVE BANNER - NO WHITE SPACE */
+        .festive-banner {
+            margin-top: 64px;
+            background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
+            color: white;
+            padding: 12px 0;
+            text-align: center;
+            position: relative;
+            z-index: 999;
+        }
+
         .hero-bg {
             background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
                         url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            margin: 0;
         }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .card-hover {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        
-        .card-hover:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-primary {
-            background-color: var(--secondary);
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2980b9;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
-        }
-        
-        .section-divider {
-            height: 2px;
-            background: linear-gradient(to right, transparent, var(--secondary), transparent);
-            margin: 2rem auto;
-            width: 80%;
-        }
-        
-        .nav-scrolled {
-            background-color: rgba(26, 37, 47, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .music-icon {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .festive-banner {
-            background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .festive-banner::before {
-            content: "🎄🎅";
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-        }
-        
-        .festive-banner::after {
-            content: "🎁✨";
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-        }
-        
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            color: white;
-            font-size: 14px;
-            user-select: none;
-            z-index: 1000;
-            animation: snowfall linear infinite;
-        }
-        
-        @keyframes snowfall {
-            0% { transform: translateY(0) rotate(0deg); }
-            100% { transform: translateY(100vh) rotate(360deg); }
-        }
-        
+
         .festive-card {
             border: 2px solid var(--festive-gold);
             position: relative;
             overflow: hidden;
         }
-        
+
         .festive-card::before {
             content: "";
             position: absolute;
@@ -148,31 +105,31 @@
             height: 5px;
             background: linear-gradient(90deg, var(--festive-red), var(--festive-green), var(--festive-red));
         }
-        
+
         .whatsapp-float {
             position: fixed;
             width: 60px;
             height: 60px;
-            bottom: 40px;
-            right: 40px;
+            bottom: 28px;
+            right: 20px;
             background-color: #25d366;
             color: #FFF;
             border-radius: 50px;
             text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
-            z-index: 100;
+            font-size: 26px;
+            box-shadow: 2px 4px 10px rgba(0,0,0,0.14);
+            z-index: 1200;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s ease;
+            transition: transform .14s ease;
         }
-        
+
         .whatsapp-float:hover {
+            transform: scale(1.08);
             background-color: #128C7E;
-            transform: scale(1.1);
         }
-        
+
         .developer-credit {
             background-color: var(--dark);
             color: white;
@@ -180,32 +137,23 @@
             text-align: center;
             font-size: 14px;
         }
-        
-        /* Mobile Responsive Fixes */
+
+        /* MOBILE FIXES */
         @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
+            #navbar {
+                padding: 10px 0;
             }
-            
-            .festive-banner::before,
-            .festive-banner::after {
-                display: none;
+
+            .festive-banner {
+                margin-top: 56px;
+                padding: 10px 0;
             }
-            
+
             .festive-banner p {
-                font-size: 0.9rem;
+                font-size: 0.8rem;
                 padding: 0 1rem;
             }
-            
-            .hero-bg h1 {
-                font-size: 2.5rem !important;
-            }
-            
-            .hero-bg p {
-                font-size: 1rem !important;
-            }
-            
+
             .whatsapp-float {
                 width: 50px;
                 height: 50px;
@@ -213,99 +161,105 @@
                 right: 20px;
                 font-size: 24px;
             }
-            
+
             .mobile-padding {
                 padding-left: 1rem;
                 padding-right: 1rem;
             }
-            
+
             .mobile-text-center {
                 text-align: center;
             }
         }
-        
+
+        @media (max-width: 480px) {
+            .festive-banner {
+                margin-top: 52px;
+            }
+
+            .festive-banner p {
+                font-size: 0.75rem;
+                padding: 0 0.5rem;
+            }
+        }
+
         /* Ensure proper image display */
         img {
             max-width: 100%;
             height: auto;
+            display: block;
         }
-        
+
         /* Fix mobile menu z-index */
         #mobile-menu {
-            z-index: 1000;
+            z-index: 1001;
         }
-        
-        /* Improve button touch targets on mobile */
+
+        /* Improve button touch targets */
         button, a.btn {
             min-height: 44px;
+            min-width: 44px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
         }
-        
-        /* Fix form elements on mobile */
+
+        /* Fix form elements */
         input, select, textarea {
             font-size: 16px;
-        }
-        
-        /* Smooth transitions for all interactive elements */
-        * {
-            transition: all 0.2s ease;
+            min-height: 44px;
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
+
     <!-- Festive Banner -->
     <div class="festive-banner">
-        <p class="text-lg font-bold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
+        <p class="text-sm sm:text-base font-semibold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
     </div>
-    
-    <!-- Snowflakes -->
-    <div id="snowflakes-container"></div>
-    
+
     <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/919588511784?text=Hi%20Takudzwa,%20I'm%20interested%20in%20your%20web%20development%20services" 
+    <a href="https://wa.me/263782190381?text=Hi%20Ethan,%20I'm%20interested%20in%20your%20music%20services" 
        class="whatsapp-float" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
-        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-white flex items-center">
-                <i class="fas fa-music text-yellow-400 mr-2 music-icon"></i>
+    <!-- EXACT SAME NAVIGATION AS GALLERY PAGE -->
+    <nav id="navbar" class="w-full bg-gray-900 text-white">
+        <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 text-lg font-bold">
+                <i class="fas fa-music text-yellow-400 music-icon"></i>
                 <span class="hidden sm:inline">The Unspoken E</span>
                 <span class="sm:hidden">Unspoken E</span>
             </a>
-            
-            <div class="hidden md:flex space-x-6 lg:space-x-8">
-                <a href="#home" class="text-white hover:text-yellow-400 transition-colors">Home</a>
-                <a href="#about" class="text-white hover:text-yellow-400 transition-colors">About</a>
-                <a href="#experience" class="text-white hover:text-yellow-400 transition-colors">Experience</a>
-                <a href="#influences" class="text-white hover:text-yellow-400 transition-colors">Influences</a>
-                <a href="gallery.html" class="text-white hover:text-yellow-400 transition-colors">Gallery</a>
+
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="index.html" class="text-yellow-400 font-semibold border-b-2 border-yellow-400 transition-colors py-2">Home</a>
+                <a href="#about" class="hover:text-yellow-400 transition-colors py-2">About</a>
+                <a href="#experience" class="hover:text-yellow-400 transition-colors py-2">Experience</a>
+                <a href="#influences" class="hover:text-yellow-400 transition-colors py-2">Influences</a>
+                <a href="gallery.html" class="hover:text-yellow-400 transition-colors py-2">Gallery</a>
             </div>
-            
-            <div class="flex items-center space-x-4">
-                <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full transition-all shadow-lg text-sm md:text-base">
-                    Book Now
-                </a>
-                
+
+            <div class="flex items-center gap-3">
+                <a href="#contact" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full shadow text-sm md:text-base transition-colors">Book Now</a>
+
                 <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden text-white">
+                <button id="mobile-menu-button" class="md:hidden text-white p-2" aria-label="Open menu">
                     <i class="fas fa-bars text-xl"></i>
                 </button>
             </div>
         </div>
-        
+
         <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg">
-            <div class="flex flex-col space-y-4 p-6">
-                <a href="#home" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Home</a>
-                <a href="#about" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">About</a>
-                <a href="#experience" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Experience</a>
-                <a href="#influences" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Influences</a>
-                <a href="#contact" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Contact</a>
+        <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg top-full">
+            <div class="flex flex-col space-y-0 p-4">
+                <a href="index.html" class="text-yellow-400 font-semibold pl-2 border-l-4 border-yellow-400 text-lg py-3 px-4 border-b border-gray-700">Home</a>
+                <a href="#about" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">About</a>
+                <a href="#experience" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Experience</a>
+                <a href="#influences" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Influences</a>
+                <a href="gallery.html" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Gallery</a>
+                <a href="#contact" class="text-white text-lg py-3 px-4 hover:text-yellow-400 transition-colors">Contact</a>
             </div>
         </div>
     </nav>
@@ -327,23 +281,23 @@
             </div>
             
             <div class="mt-12 md:mt-16 flex justify-center space-x-6 md:space-x-8 fade-in">
-                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2">
                     <i class="fab fa-youtube"></i>
                 </a>
-                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2">
                     <i class="fab fa-facebook"></i>
                 </a>
-                <a href="https://wa.me/263782190381" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors" target="_blank">
+                <a href="https://wa.me/263782190381" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2" target="_blank">
                     <i class="fab fa-whatsapp"></i>
                 </a>
             </div>
         </div>
         
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-            <a href="#about" class="text-white animate-bounce">
+            <a href="#about" class="text-white animate-bounce p-2">
                 <i class="fas fa-chevron-down text-2xl"></i>
             </a>
         </div>
@@ -675,7 +629,7 @@
     </div>
 
     <script>
-        // Scroll animations
+        // EXACT SAME JAVASCRIPT AS GALLERY PAGE
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             
@@ -701,7 +655,7 @@
                 }
             });
             
-            // Mobile menu toggle
+            // Mobile menu toggle - SAME AS GALLERY
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             
@@ -728,7 +682,7 @@
                     mobileMenu.classList.remove('block');
                 }
             });
-            
+
             // WhatsApp form submission
             const whatsappForm = document.getElementById('whatsapp-form');
             whatsappForm.addEventListener('submit', function(e) {
@@ -753,25 +707,20 @@
                 // Reset the form
                 whatsappForm.reset();
             });
-            
-            // Create snowflakes
-            function createSnowflakes() {
-                const container = document.getElementById('snowflakes-container');
-                const snowflakes = ['❅', '❆', '•', '·'];
-                
-                for (let i = 0; i < 50; i++) {
-                    const snowflake = document.createElement('div');
-                    snowflake.className = 'snowflake';
-                    snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
-                    snowflake.style.left = Math.random() * 100 + 'vw';
-                    snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
-                    snowflake.style.animationDelay = Math.random() * 5 + 's';
-                    snowflake.style.opacity = Math.random();
-                    container.appendChild(snowflake);
-                }
-            }
-            
-            createSnowflakes();
+
+            // Smooth scrolling for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
         });
     </script>
 </body>
