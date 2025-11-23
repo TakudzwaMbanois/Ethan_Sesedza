@@ -15,46 +15,35 @@
             --festive-red: #c62828;
             --festive-green: #2e7d32;
         }
-        /* Quick arrow alignment fix */
-.transform.-translate-x-1\/2 {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100% !important;
-}
-
-.absolute.bottom-10 {
-    bottom: 40px !important;
-}
-
-        /* REMOVE ALL WHITE SPACE */
+        
+        /* Reset and base styles */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        html,body{
+        html, body {
             height: 100%;
-            margin: 0 !important;
-            padding: 0 !important;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        body{
+        body {
             font-family: 'Montserrat', sans-serif;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             background-color: #f8fafc;
             color: #1f2937;
-            overflow-x: hidden;
             scroll-behavior: smooth;
         }
 
-        h1,h2,h3,h4{
+        h1, h2, h3, h4 {
             font-family: 'Playfair Display', serif;
         }
 
-        /* EXACT SAME NAVBAR AS GALLERY */
+        /* Navigation */
         #navbar {
             position: fixed;
             top: 0;
@@ -64,7 +53,7 @@
             background-color: #1a252f;
             box-shadow: 0 2px 10px rgba(0,0,0,0.12);
             margin: 0;
-            padding: 12px 0;
+            padding: 0.75rem 0;
         }
 
         .nav-scrolled {
@@ -72,21 +61,42 @@
         }
 
         /* Animations */
-        .music-icon { animation: pulse 2s infinite; }
-        @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+        .music-icon { 
+            animation: pulse 2s infinite; 
+        }
+        
+        @keyframes pulse { 
+            0% { transform: scale(1); } 
+            50% { transform: scale(1.06); } 
+            100% { transform: scale(1); } 
+        }
 
-        .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
-        .fade-in.visible { opacity: 1; transform: translateY(0); }
+        .fade-in { 
+            opacity: 0; 
+            transform: translateY(12px); 
+            transition: opacity .6s ease, transform .6s ease; 
+        }
+        
+        .fade-in.visible { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
 
-        .card-hover { transition: all .28s ease; }
-        .card-hover:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+        .card-hover { 
+            transition: all .28s ease; 
+        }
+        
+        .card-hover:hover { 
+            transform: translateY(-6px); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12); 
+        }
 
-        /* FESTIVE BANNER - NO WHITE SPACE */
+        /* Festive Banner */
         .festive-banner {
             margin-top: 64px;
             background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
             color: white;
-            padding: 12px 0;
+            padding: 0.75rem 0;
             text-align: center;
             position: relative;
             z-index: 999;
@@ -144,25 +154,26 @@
         .developer-credit {
             background-color: var(--dark);
             color: white;
-            padding: 10px 0;
+            padding: 0.625rem 0;
             text-align: center;
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
-        /* MOBILE FIXES */
+        /* Mobile-first responsive design */
         @media (max-width: 768px) {
             #navbar {
-                padding: 10px 0;
+                padding: 0.625rem 0;
             }
 
             .festive-banner {
                 margin-top: 56px;
-                padding: 10px 0;
+                padding: 0.625rem 0;
             }
 
             .festive-banner p {
                 font-size: 0.8rem;
                 padding: 0 1rem;
+                line-height: 1.3;
             }
 
             .whatsapp-float {
@@ -181,122 +192,100 @@
             .mobile-text-center {
                 text-align: center;
             }
+            
+            /* Hero section mobile optimizations */
+            .hero-bg {
+                min-height: 85vh;
+                padding-top: 2rem;
+                padding-bottom: 2rem;
+            }
+            
+            #home .container {
+                padding-top: 0;
+                padding-bottom: 0;
+            }
+            
+            .hero-bg h1 {
+                font-size: 2rem;
+                margin-bottom: 0.75rem;
+                line-height: 1.1;
+            }
+            
+            .hero-bg .text-lg {
+                font-size: 1rem;
+                margin-bottom: 0.75rem;
+            }
+            
+            .hero-bg .text-base {
+                font-size: 0.9rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            /* Optimize button spacing */
+            .flex-col.sm\:flex-row {
+                gap: 0.75rem;
+            }
+            
+            .space-y-4 {
+                gap: 0.75rem;
+            }
+            
+            /* Optimize social icons */
+            .space-x-6 {
+                gap: 1rem;
+            }
+            
+            .mt-12 {
+                margin-top: 2rem;
+            }
+            
+            .md\:mt-16 {
+                margin-top: 2.5rem;
+            }
+            
+            /* Arrow positioning */
+            .bottom-10 {
+                bottom: 2rem;
+            }
         }
 
         @media (max-width: 480px) {
             .festive-banner {
                 margin-top: 52px;
+                padding: 0.5rem 0;
             }
 
             .festive-banner p {
                 font-size: 0.75rem;
                 padding: 0 0.5rem;
             }
+            
+            .hero-bg {
+                min-height: 80vh;
+                padding-top: 1.5rem;
+                padding-bottom: 1.5rem;
+            }
+            
+            .hero-bg h1 {
+                font-size: 1.75rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero-bg .text-lg {
+                font-size: 0.95rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .hero-bg .text-base {
+                font-size: 0.85rem;
+                margin-bottom: 1.25rem;
+            }
+            
+            .bottom-10 {
+                bottom: 1.5rem;
+            }
         }
-        /* Optimal Mobile Hero Fix */
-@media (max-width: 768px) {
-    .hero-bg {
-        min-height: 85vh !important;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-    
-    #home .container {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    
-    .hero-bg h1 {
-        font-size: 2rem !important;
-        margin-bottom: 0.75rem !important;
-        line-height: 1.1 !important;
-    }
-    
-    .hero-bg .text-lg {
-        font-size: 1rem !important;
-        margin-bottom: 0.75rem !important;
-    }
-    
-    .hero-bg .text-base {
-        font-size: 0.9rem !important;
-        margin-bottom: 1.5rem !important;
-        line-height: 1.4 !important;
-    }
-    
-    .festive-banner {
-        margin-top: 56px !important;
-        padding: 8px 0 !important;
-    }
-    
-    .festive-banner p {
-        font-size: 0.75rem !important;
-        line-height: 1.2 !important;
-        padding: 0 0.5rem !important;
-    }
-    
-    /* Optimize button spacing */
-    .flex-col.sm\:flex-row {
-        gap: 0.75rem !important;
-    }
-    
-    .space-y-4 {
-        gap: 0.75rem !important;
-    }
-    
-    /* Optimize social icons */
-    .space-x-6 {
-        gap: 1rem !important;
-    }
-    
-    .mt-12 {
-        margin-top: 2rem !important;
-    }
-    
-    .md\:mt-16 {
-        margin-top: 2.5rem !important;
-    }
-    
-    /* Arrow positioning */
-    .bottom-10 {
-        bottom: 2rem !important;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-bg {
-        min-height: 80vh !important;
-        padding-top: 1.5rem !important;
-        padding-bottom: 1.5rem !important;
-    }
-    
-    .hero-bg h1 {
-        font-size: 1.75rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    .hero-bg .text-lg {
-        font-size: 0.95rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    .hero-bg .text-base {
-        font-size: 0.85rem !important;
-        margin-bottom: 1.25rem !important;
-    }
-    
-    .festive-banner {
-        margin-top: 52px !important;
-        padding: 6px 0 !important;
-    }
-    
-    .festive-banner p {
-        font-size: 0.7rem !important;
-    }
-    
-    .bottom-10 {
-        bottom: 1.5rem !important;
-    }
-}
 
         /* Ensure proper image display */
         img {
@@ -324,7 +313,27 @@
             font-size: 16px;
             min-height: 44px;
         }
-       
+        
+        /* Section spacing */
+        section {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        
+        @media (min-width: 768px) {
+            section {
+                padding-top: 5rem;
+                padding-bottom: 5rem;
+            }
+        }
+        
+        /* Fix for arrow alignment */
+        .transform.-translate-x-1\/2 {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -340,7 +349,7 @@
         <i class="fab fa-whatsapp"></i>
     </a>
 
-    <!-- EXACT SAME NAVIGATION AS GALLERY PAGE -->
+    <!-- Navigation -->
     <nav id="navbar" class="w-full bg-gray-900 text-white">
         <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-2 text-lg font-bold">
@@ -381,28 +390,23 @@
     </nav>
 
     <!-- Hero Section -->
-    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white pt-20">
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white">
         <div class="container mx-auto px-4 md:px-6 text-center">
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 fade-in">The Unspoken E</h1>
             <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 fade-in">Christian Artist | Guitarist | Songwriter | Vocalist</p>
             <p class="text-base sm:text-lg max-w-2xl mx-auto mb-8 md:mb-10 fade-in mobile-padding">Blending heartfelt storytelling, acoustic worship, and soul-infused melodies from Zimbabwe</p>
             
             <!-- Buttons with equal sizes -->
-<div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 fade-in">
-    <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg min-w-[200px] text-center">
-        Book for Event
-    </a>
-    <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all min-w-[200px] text-center">
-        Learn More
-    </a>
-</div>
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 fade-in">
+                <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg min-w-[200px] text-center">
+                    Book for Event
+                </a>
+                <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all min-w-[200px] text-center">
+                    Learn More
+                </a>
+            </div>
 
-<!-- Perfectly centered arrow -->
-<div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-    <a href="#about" class="text-white animate-bounce flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-        <i class="fas fa-chevron-down text-xl"></i>
-    </a>
-</div>
+            <!-- Social icons -->
             <div class="mt-12 md:mt-16 flex justify-center space-x-6 md:space-x-8 fade-in">
                 <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2">
                     <i class="fab fa-youtube"></i>
@@ -419,15 +423,16 @@
             </div>
         </div>
         
+        <!-- Scroll down arrow -->
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-            <a href="#about" class="text-white animate-bounce p-2">
-                <i class="fas fa-chevron-down text-2xl"></i>
+            <a href="#about" class="text-white animate-bounce flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
+                <i class="fas fa-chevron-down text-xl"></i>
             </a>
         </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="py-16 md:py-20 bg-white">
+    <section id="about" class="bg-white">
         <div class="container mx-auto px-4 md:px-6">
             <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">About The Artist</h2>
             
@@ -472,7 +477,7 @@
     </section>
 
     <!-- Festive Discounts Section -->
-    <section class="py-12 md:py-16 bg-gradient-to-r from-red-50 to-green-50">
+    <section class="bg-gradient-to-r from-red-50 to-green-50">
         <div class="container mx-auto px-4 md:px-6">
             <div class="text-center mb-10 md:mb-12 fade-in">
                 <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-green-800">🎄 Festive Season Specials 🎄</h2>
@@ -557,7 +562,7 @@
     </section>
 
     <!-- Experience Section -->
-    <section id="experience" class="py-16 md:py-20 bg-gray-100">
+    <section id="experience" class="bg-gray-100">
         <div class="container mx-auto px-4 md:px-6">
             <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Experience & Highlights</h2>
             
@@ -615,7 +620,7 @@
     </section>
 
     <!-- Influences Section -->
-    <section id="influences" class="py-16 md:py-20 bg-white">
+    <section id="influences" class="bg-white">
         <div class="container mx-auto px-4 md:px-6">
             <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Musical Influences</h2>
             
@@ -655,7 +660,7 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="py-16 md:py-20 bg-gray-900 text-white">
+    <section id="contact" class="bg-gray-900 text-white">
         <div class="container mx-auto px-4 md:px-6">
             <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Get In Touch</h2>
             
@@ -752,7 +757,6 @@
     </div>
 
     <script>
-        // EXACT SAME JAVASCRIPT AS GALLERY PAGE
         document.addEventListener('DOMContentLoaded', function() {
             const fadeElements = document.querySelectorAll('.fade-in');
             
@@ -778,7 +782,7 @@
                 }
             });
             
-            // Mobile menu toggle - SAME AS GALLERY
+            // Mobile menu toggle
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             
@@ -848,4 +852,3 @@
     </script>
 </body>
 </html>
-
