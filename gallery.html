@@ -1,1058 +1,803 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gallery | The Unspoken E</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2c3e50;
-            --secondary: #3498db;
-            --accent: #e74c3c;
-            --light: #ecf0f1;
-            --dark: #1a252f;
-            --festive-red: #c62828;
-            --festive-green: #2e7d32;
-            --festive-gold: #ffd700;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-        
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .nav-scrolled {
-            background-color: rgba(26, 37, 47, 0.95);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
-        }
-        
-        .music-icon {
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-        
-        .gallery-item {
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        }
-        
-        .filter-btn {
-            transition: all 0.3s ease;
-        }
-        
-        .filter-btn.active {
-            background-color: #3498db;
-            color: white;
-        }
-        
-        /* FIXED MODAL STYLES - FULL SCREEN */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background-color: rgba(0, 0, 0, 0.98);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .modal-content {
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .modal-image {
-            width: auto;
-            height: auto;
-            max-width: 95vw;
-            max-height: 95vh;
-            object-fit: contain;
-            transition: transform 0.3s ease;
-            cursor: zoom-in;
-        }
-        
-        .modal-image.zoomed {
-            cursor: grab;
-        }
-        
-        .modal-image.zoomed:active {
-            cursor: grabbing;
-        }
-        
-        .close-btn {
-            position: absolute;
-            top: 30px;
-            right: 40px;
-            color: white;
-            font-size: 50px;
-            font-weight: bold;
-            cursor: pointer;
-            z-index: 1001;
-            background: rgba(0,0,0,0.7);
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .close-btn:hover {
-            background: rgba(0,0,0,0.9);
-            transform: scale(1.1);
-        }
-        
-        .nav-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            color: white;
-            font-size: 50px;
-            cursor: pointer;
-            z-index: 1001;
-            background-color: rgba(0, 0, 0, 0.7);
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-btn:hover {
-            background-color: rgba(0, 0, 0, 0.9);
-            transform: translateY(-50%) scale(1.1);
-        }
-        
-        .prev-btn {
-            left: 40px;
-        }
-        
-        .next-btn {
-            right: 40px;
-        }
-        
-        .image-info {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.9));
-            color: white;
-            padding: 40px 30px 30px;
-            text-align: center;
-            z-index: 1001;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>Gallery | The Unspoken E</title>
 
-        /* Zoom functionality */
-        .zoom-controls {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1001;
-            display: flex;
-            gap: 10px;
-        }
-        
-        .zoom-btn {
-            background: rgba(0,0,0,0.7);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 20px;
-            transition: all 0.3s ease;
-        }
-        
-        .zoom-btn:hover {
-            background: rgba(0,0,0,0.9);
-            transform: scale(1.1);
-        }
-        
-        .zoom-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-        }
-        
-        .zoom-indicator {
-            position: absolute;
-            top: 30px;
-            left: 40px;
-            background: rgba(0,0,0,0.7);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            z-index: 1001;
-        }
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
 
-        /* High quality image loading */
-        .high-quality-img {
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
-        }
-        
-        .fade-in {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        
-        .fade-in.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .festive-banner {
-            background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
-            color: white;
-            padding: 15px 0;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .festive-banner::before {
-            content: "🎄🎅";
-            position: absolute;
-            left: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-        }
-        
-        .festive-banner::after {
-            content: "🎁✨";
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 24px;
-        }
-        
-        .developer-credit {
-            background-color: var(--dark);
-            color: white;
-            padding: 10px 0;
-            text-align: center;
-            font-size: 14px;
-        }
-        
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 40px;
-            right: 40px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 30px;
-            box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-        }
-        
-        .whatsapp-float:hover {
-            background-color: #128C7E;
-            transform: scale(1.1);
-        }
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-        /* Image quality improvements */
-        .gallery-img {
-            image-rendering: auto;
-            backface-visibility: hidden;
-            transform: translateZ(0);
-        }
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-        /* Ensure navigation is always visible */
-        nav {
-            z-index: 1000 !important;
-        }
-        
-        /* Loading animation */
-        .loader {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 2s linear infinite;
-            margin: 20px auto;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+  <style>
+    :root{
+      --primary: #2c3e50;
+      --yellow: #F6C23E; /* african yellow */
+    }
 
-        /* Mobile Responsive Fixes */
-        @media (max-width: 768px) {
-            .container {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            .festive-banner::before,
-            .festive-banner::after {
-                display: none;
-            }
-            
-            .festive-banner p {
-                font-size: 0.9rem;
-                padding: 0 1rem;
-            }
-            
-            .modal-image {
-                max-width: 98vw;
-                max-height: 98vh;
-            }
-            
-            .close-btn {
-                top: 20px;
-                right: 25px;
-                font-size: 40px;
-                width: 50px;
-                height: 50px;
-            }
-            
-            .nav-btn {
-                width: 60px;
-                height: 60px;
-                font-size: 40px;
-            }
-            
-            .prev-btn {
-                left: 20px;
-            }
-            
-            .next-btn {
-                right: 20px;
-            }
-            
-            .image-info {
-                padding: 30px 20px 20px;
-            }
-            
-            .zoom-controls {
-                bottom: 10px;
-                right: 10px;
-            }
-            
-            .zoom-btn {
-                width: 45px;
-                height: 45px;
-                font-size: 18px;
-            }
-            
-            .zoom-indicator {
-                top: 20px;
-                left: 20px;
-                font-size: 12px;
-                padding: 8px 12px;
-            }
-            
-            .mobile-padding {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
-            
-            .mobile-text-center {
-                text-align: center;
-            }
-            
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
-        }
-        
-        /* Fix mobile menu z-index */
-        #mobile-menu {
-            z-index: 1000;
-        }
-        
-        /* Improve button touch targets on mobile */
-        button, a.btn {
-            min-height: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-    </style>
+    html,body{
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body{
+      font-family: 'Montserrat', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background-color: #f8fafc;
+      color: #1f2937;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+      padding-top: 0; /* JS will adjust to nav height */
+    }
+
+    h1,h2,h3,h4{
+      font-family: 'Playfair Display', serif;
+    }
+
+    /* FIXED NAVBAR - Proper spacing and positioning */
+    /* FIXED NAVBAR - No white space */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #1a252f; /* SOLID COLOR - NO TRANSPARENCY */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin: 0;
+    padding: 0;
+    height: 64px; /* FIXED HEIGHT */
+    display: flex;
+    align-items: center;
+}
+
+.nav-scrolled {
+    background-color: #1a252f; /* KEEP SOLID */
+}
+
+/* FIXED BANNER - NO WHITE SPACE */
+.festive-banner {
+    margin-top: 64px; /* EXACT NAVBAR HEIGHT */
+    background: linear-gradient(45deg, #c62828, #2e7d32);
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+    position: relative;
+    z-index: 999;
+    border: none;
+    margin-bottom: 0;
+}
+
+/* REMOVE ALL BODY SPACING */
+body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Mobile fix */
+@media (max-width: 768px) {
+    #navbar {
+        height: 56px; /* Adjusted for mobile */
+    }
+    
+    .festive-banner {
+        margin-top: 56px; /* Exact mobile navbar height */
+        padding: 12px 0;
+    }
+}
+
+    /* Animations */
+    .music-icon { animation: pulse 2s infinite; }
+    @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
+
+    /* Gallery item */
+    .gallery-item { transition: all .28s ease; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
+    .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+
+    /* Grid safe defaults */
+    #gallery-grid { grid-auto-rows: minmax(120px, auto); }
+
+    /* Image handling */
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      max-height: 40vh;
+      object-fit: cover;
+      display: block;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.96);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    }
+
+    .modal-content {
+      position: relative;
+      max-width: 1100px;
+      width: 100%;
+      max-height: calc(100vh - 120px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .modal-image {
+      width: auto;
+      height: auto;
+      max-width: calc(100vw - 40px);
+      max-height: calc(100vh - 160px);
+      object-fit: contain;
+      transition: transform .2s ease;
+      cursor: zoom-in;
+      touch-action: none;
+    }
+
+    .modal-image.zoomed { cursor: grab; }
+
+    .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 22px;
+      color: white;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 2100;
+      background: rgba(0,0,0,0.6);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display:flex;align-items:center;justify-content:center;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .close-btn:hover { transform: scale(1.06); background: rgba(0,0,0,0.8); }
+
+    .nav-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: white;
+      font-size: 34px;
+      cursor: pointer;
+      z-index: 2100;
+      background-color: rgba(0,0,0,0.6);
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display:flex;align-items:center;justify-content:center;
+      transition: transform .18s ease, background .18s ease;
+    }
+    .nav-btn:hover { transform: translateY(-50%) scale(1.06); background-color: rgba(0,0,0,0.85); }
+    .prev-btn { left: 16px; }
+    .next-btn { right: 16px; }
+
+    .image-info {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.9));
+      color: white;
+      padding: 22px 18px 18px;
+      text-align: center;
+      z-index: 2100;
+      pointer-events: none;
+    }
+
+    .zoom-controls {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      z-index: 2100;
+      display:flex;
+      gap:10px;
+    }
+
+    .zoom-btn {
+      background: rgba(0,0,0,0.6);
+      color: white;
+      border: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display:flex;align-items:center;justify-content:center;
+      cursor: pointer;
+      font-size: 16px;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .zoom-btn:hover { transform: scale(1.06); background: rgba(0,0,0,0.8); }
+    .zoom-btn:disabled { opacity: 0.48; cursor: not-allowed; transform: none; }
+
+    .zoom-indicator {
+      position: absolute;
+      top: 18px;
+      left: 18px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 8px 12px;
+      border-radius: 18px;
+      font-size: 13px;
+      z-index: 2100;
+    }
+
+    /* fade in */
+    .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* loader */
+    .loader { border: 5px solid #f3f3f3; border-top: 5px solid #F6C23E; border-radius: 50%; width: 50px; height: 50px; animation: spin 1.6s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
+
+    /* WhatsApp float */
+    .whatsapp-float { position: fixed; width: 60px; height: 60px; bottom: 28px; right: 20px; background-color: #25d366; color: #FFF; border-radius: 50px; text-align: center; font-size: 26px; box-shadow: 2px 4px 10px rgba(0,0,0,0.14); z-index:1200; display:flex;align-items:center;justify-content:center; transition: transform .14s ease; }
+    .whatsapp-float:hover { transform: scale(1.08); background-color:#128C7E; }
+
+    /* IMPROVED MOBILE FIXES */
+    @media (max-width: 768px) {
+      /* Better navbar spacing */
+      #navbar {
+        padding: 12px 0;
+      }
+      
+      /* Better banner spacing */
+      .festive-banner {
+        margin-top: 60px;
+        padding: 10px 0;
+      }
+      
+      .festive-banner p {
+        font-size: 0.8rem;
+        padding: 0 1rem;
+        line-height: 1.3;
+      }
+
+      .gallery-img { max-height: 36vh; }
+      .modal-image { max-height: calc(100vh - 140px); max-width: calc(100vw - 32px); }
+      .close-btn { top: 14px; right: 14px; font-size: 34px; width: 48px; height: 48px; }
+      .nav-btn { width: 48px; height: 48px; font-size: 28px; }
+      .zoom-btn { width: 44px; height: 44px; font-size: 15px; }
+      .image-info { padding: 14px 12px 12px; font-size: 14px; }
+      .music-icon { display: inline-block; }
+      
+      /* Hero section spacing */
+      .hero-section {
+        padding-top: 80px !important;
+      }
+    }
+
+    /* Extra small devices */
+    @media (max-width: 480px) {
+      .festive-banner {
+        margin-top: 56px;
+      }
+      
+      .festive-banner p {
+        font-size: 0.75rem;
+        padding: 0 0.5rem;
+      }
+      
+      #navbar {
+        padding: 10px 0;
+      }
+    }
+
+    /* Ensure clickable controls have good tap target */
+    button, a.btn { 
+      min-height: 44px; 
+      min-width: 44px;
+      display:inline-flex; 
+      align-items:center; 
+      justify-content:center; 
+    }
+
+    /* safe area for notch screens */
+    body { padding-bottom: env(safe-area-inset-bottom); }
+    
+    /* Remove any unwanted whitespace */
+    * {
+      box-sizing: border-box;
+    }
+  </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-    <!-- Festive Banner -->
-    <div class="festive-banner">
-        <p class="text-lg font-bold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
+
+  <!-- FIXED BANNER - Proper spacing -->
+  <div class="festive-banner bg-gradient-to-r from-red-600 to-green-600 text-white py-3 text-center">
+    <p class="text-sm sm:text-base font-semibold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
+  </div>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/263782190381?text=Hi%20Ethan,%20I'm%20interested%20in%20your%20music%20services" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+
+  <!-- FIXED NAVIGATION - Proper styling and spacing -->
+  <nav id="navbar" class="w-full text-white py-3">
+    <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-2 text-lg font-bold">
+        <i class="fas fa-music text-yellow-400 music-icon"></i>
+        <span class="hidden sm:inline">The Unspoken E</span>
+        <span class="sm:hidden">Unspoken E</span>
+      </a>
+
+      <div class="hidden md:flex items-center space-x-6">
+        <a href="index.html" class="hover:text-yellow-400 transition-colors py-2">Home</a>
+        <a href="index.html#about" class="hover:text-yellow-400 transition-colors py-2">About</a>
+        <a href="index.html#experience" class="hover:text-yellow-400 transition-colors py-2">Experience</a>
+        <a href="gallery.html" class="text-yellow-400 font-semibold border-b-2 border-yellow-400 transition-colors py-2">Gallery</a>
+        <a href="index.html#contact" class="hover:text-yellow-400 transition-colors py-2">Contact</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="index.html#contact" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full shadow text-sm md:text-base transition-colors">Book Now</a>
+
+        <!-- mobile menu button -->
+        <button id="mobile-menu-button" class="md:hidden text-white p-2" aria-label="Open menu">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
     </div>
 
-    <!-- WhatsApp Float Button -->
-    <a href="https://wa.me/263782190381?text=Hi%20Ethan,%20I'm%20interested%20in%20your%20music%20services" 
-       class="whatsapp-float" target="_blank">
-        <i class="fab fa-whatsapp"></i>
-    </a>
+    <!-- mobile menu -->
+    <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg top-full">
+      <div class="flex flex-col space-y-0 p-4">
+        <a href="index.html" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Home</a>
+        <a href="index.html#about" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">About</a>
+        <a href="index.html#experience" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Experience</a>
+        <a href="gallery.html" class="text-yellow-400 font-semibold pl-2 border-l-4 border-yellow-400 text-lg py-3 px-4 border-b border-gray-700">Gallery</a>
+        <a href="index.html#contact" class="text-white text-lg py-3 px-4 hover:text-yellow-400 transition-colors">Contact</a>
+      </div>
+    </div>
+  </nav>
 
-    <!-- Navigation -->
-    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4 bg-gray-900">
-        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
-            <a href="index.html" class="text-xl font-bold text-white flex items-center">
-                <i class="fas fa-music text-yellow-400 mr-2 music-icon"></i>
-                <span class="hidden sm:inline">The Unspoken E</span>
-                <span class="sm:hidden">Unspoken E</span>
-            </a>
-            
-            <div class="hidden md:flex space-x-6 lg:space-x-8">
-                <a href="index.html" class="text-white hover:text-yellow-400 transition-colors">Home</a>
-                <a href="index.html#about" class="text-white hover:text-yellow-400 transition-colors">About</a>
-                <a href="index.html#experience" class="text-white hover:text-yellow-400 transition-colors">Experience</a>
-                <a href="gallery.html" class="text-yellow-400 font-semibold border-b-2 border-yellow-400 transition-colors">Gallery</a>
-                <a href="index.html#contact" class="text-white hover:text-yellow-400 transition-colors">Contact</a>
-            </div>
-            
-            <div class="flex items-center space-x-4">
-                <a href="index.html#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full transition-all shadow-lg text-sm md:text-base">
-                    Book Now
-                </a>
-                
-                <!-- Mobile menu button -->
-                <button id="mobile-menu-button" class="md:hidden text-white">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-            </div>
-        </div>
-        
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg">
-            <div class="flex flex-col space-y-4 p-6">
-                <a href="index.html" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Home</a>
-                <a href="index.html#about" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">About</a>
-                <a href="index.html#experience" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Experience</a>
-                <a href="gallery.html" class="text-yellow-400 font-semibold border-l-4 border-yellow-400 pl-3 transition-colors text-lg py-2">Gallery</a>
-                <a href="index.html#contact" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Contact</a>
-            </div>
-        </div>
-    </nav>
+  <!-- Hero -->
+  <section class="hero-section bg-gradient-to-r from-blue-900 to-purple-900 min-h-[36vh] flex items-center justify-center text-white">
+    <div class="container mx-auto px-4 text-center">
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Gallery</h1>
+      <p class="text-sm sm:text-base max-w-2xl mx-auto">A visual journey through performances, moments, and musical expressions</p>
+    </div>
+  </section>
 
-    <!-- Hero Section -->
-    <section class="bg-gradient-to-r from-blue-900 to-purple-900 min-h-[40vh] flex items-center justify-center text-white pt-20">
-        <div class="container mx-auto px-4 md:px-6 text-center">
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 fade-in">Gallery</h1>
-            <p class="text-lg sm:text-xl max-w-2xl mx-auto fade-in mobile-padding">A visual journey through performances, moments, and musical expressions</p>
-        </div>
-    </section>
+  <!-- Filters -->
+  <section class="py-6 bg-white sticky top-0 z-30 shadow-sm" style="top: calc(64px + 3rem);">
+    <div class="container mx-auto px-4 md:px-6">
+      <div class="flex flex-wrap justify-center gap-3">
+        <button class="filter-btn active px-4 py-2 rounded-full bg-yellow-400 text-white transition-colors" data-filter="all">All Media</button>
+        <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="image"><i class="fas fa-image mr-2"></i>Photos</button>
+        <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="video"><i class="fas fa-video mr-2"></i>Videos</button>
+        <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="performance"><i class="fas fa-music mr-2"></i>Performances</button>
+      </div>
+    </div>
+  </section>
 
-    <!-- Gallery Filters -->
-    <section class="py-8 bg-white sticky top-0 z-30 shadow-sm">
-        <div class="container mx-auto px-4 md:px-6">
-            <div class="flex flex-wrap justify-center gap-4">
-                <button class="filter-btn active px-4 py-2 rounded-full bg-yellow-500 text-white transition-colors" data-filter="all">
-                    All Media
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="image">
-                    <i class="fas fa-image mr-2"></i>Photos
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="video">
-                    <i class="fas fa-video mr-2"></i>Videos
-                </button>
-                <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="performance">
-                    <i class="fas fa-music mr-2"></i>Performances
-                </button>
-            </div>
-        </div>
-    </section>
+  <!-- Gallery Grid -->
+  <section class="py-8 bg-gray-50">
+    <div class="container mx-auto px-4 md:px-6">
+      <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div class="col-span-full text-center py-12"><div class="loader"></div></div>
+      </div>
 
-    <!-- Gallery Grid -->
-    <section class="py-12 bg-gray-50">
-        <div class="container mx-auto px-4 md:px-6">
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                <!-- Gallery items will be loaded here -->
-                <div class="loader"></div>
-            </div>
-            
-            <div id="load-more-container" class="text-center mt-12 hidden">
-                <button id="load-more-btn" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors">
-                    Load More
-                </button>
-            </div>
-        </div>
-    </section>
+      <div id="load-more-container" class="text-center mt-10 hidden">
+        <button id="load-more-btn" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-semibold transition-colors">Load More</button>
+      </div>
+    </div>
+  </section>
 
-    <!-- Modal for viewing media -->
-    <div id="media-modal" class="modal">
-        <span class="close-btn">&times;</span>
-        <div class="nav-btn prev-btn">
-            <i class="fas fa-chevron-left"></i>
-        </div>
-        <div class="nav-btn next-btn">
-            <i class="fas fa-chevron-right"></i>
-        </div>
-        <div class="zoom-controls">
-            <button class="zoom-btn" id="zoom-in">
-                <i class="fas fa-search-plus"></i>
-            </button>
-            <button class="zoom-btn" id="zoom-out">
-                <i class="fas fa-search-minus"></i>
-            </button>
-            <button class="zoom-btn" id="reset-zoom">
-                <i class="fas fa-sync-alt"></i>
-            </button>
-        </div>
-        <div class="zoom-indicator" id="zoom-indicator">100%</div>
-        <div class="modal-content">
-            <!-- Content will be inserted here by JavaScript -->
-        </div>
+  <!-- Modal -->
+  <div id="media-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+    <span class="close-btn" title="Close" role="button" aria-label="Close modal">&times;</span>
+    <div class="nav-btn prev-btn" role="button" aria-label="Previous"><i class="fas fa-chevron-left"></i></div>
+    <div class="nav-btn next-btn" role="button" aria-label="Next"><i class="fas fa-chevron-right"></i></div>
+
+    <div class="zoom-controls" aria-hidden="true">
+      <button class="zoom-btn" id="zoom-in" title="Zoom in"><i class="fas fa-search-plus"></i></button>
+      <button class="zoom-btn" id="zoom-out" title="Zoom out"><i class="fas fa-search-minus"></i></button>
+      <button class="zoom-btn" id="reset-zoom" title="Reset zoom"><i class="fas fa-sync-alt"></i></button>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-8">
-        <div class="container mx-auto px-4 md:px-6 text-center">
-            <p class="text-sm sm:text-base">&copy; 2023 The Unspoken E. All rights reserved.</p>
-            <p class="mt-2 text-gray-400 text-sm">Christian Artist | Guitarist | Songwriter | Vocalist</p>
-        </div>
-    </footer>
-    
-    <!-- Developer Credit -->
-    <div class="developer-credit">
-        <p class="text-sm">Website developed by <strong>Takudzwa Mbano</strong> | 
-           <a href="https://wa.me/919588511784?text=Hi%20Takudzwa,%20I'm%20interested%20in%20your%20web%20development%20services" 
-              class="text-yellow-400 hover:text-yellow-300 underline" target="_blank">
-              WhatsApp me @ +919588511784
-           </a>
-        </p>
-    </div>
+    <div class="zoom-indicator" id="zoom-indicator">100%</div>
 
-   <script>
-    // Gallery Data with updated image URLs
+    <div class="modal-content" id="modal-content"></div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white py-6">
+    <div class="container mx-auto px-4 md:px-6 text-center">
+      <p class="text-sm">&copy; 2023 The Unspoken E. All rights reserved.</p>
+      <p class="mt-2 text-gray-400 text-sm">Christian Artist | Guitarist | Songwriter | Vocalist</p>
+    </div>
+  </footer>
+
+  <!-- Developer Credit -->
+  <div class="bg-[#0f1724] text-white py-3 text-center">
+    <p class="text-sm">Website developed by <strong>Takudzwa Mbano</strong> | 
+      <a href="https://wa.me/919588511784?text=Hi%20Takudzwa,%20I'm%20interested%20in%20your%20web%20development%20services" class="text-yellow-300 underline hover:text-yellow-200 transition-colors" target="_blank">WhatsApp me</a>
+    </p>
+  </div>
+
+  <!-- Gallery Data + Script -->
+  <script>
+    /* ---------- galleryData (unchanged) ---------- */
     const galleryData = [
-        {
-            id: 1,
-            type: 'video',
-            category: 'performance',
-            src: 'https://www.youtube.com/embed/VIDEO_ID_1',
-            title: 'Worship Session - Live Performance',
-            description: 'Acoustic worship set at church event'
-        },
-        {
-            id: 2,
-            type: 'video',
-            category: 'performance', 
-            src: 'https://www.youtube.com/embed/VIDEO_ID_2',
-            title: 'Original Song Performance',
-            description: 'Live performance of original composition'
-        },
-        {
-            id: 3,
-            type: 'video',
-            category: 'performance',
-            src: 'https://www.youtube.com/embed/VIDEO_ID_3',
-            title: 'Guitar Instrumental',
-            description: 'Solo guitar performance showcasing technique'
-        },
-        {
-            id: 4,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/zhhBgbLB/Whats-App-Image-2025-11-23-at-20-54-57-6efe29df.jpg',
-            title: 'Live Performance',
-            description: 'Worship session at church event'
-        },
-        {
-            id: 5,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/QvY8QXh9/Whats-App-Image-2025-11-23-at-20-55-00-77dac61c.jpg',
-            title: 'Acoustic Set',
-            description: 'Intimate acoustic performance'
-        },
-        {
-            id: 6,
-            type: 'image', 
-            category: 'performance',
-            src: 'https://i.ibb.co/Txdp62YL/Whats-App-Image-2025-11-23-at-20-55-02-5e8d5623.jpg',
-            title: 'Church Service',
-            description: 'Leading worship Sunday service'
-        },
-        {
-            id: 7,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/nsD5cDX6/Whats-App-Image-2025-11-23-at-20-55-05-872d0a39.jpg',
-            title: 'Community Event',
-            description: 'Performing for local gathering'
-        },
-        {
-            id: 8,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/xthzmTm6/Whats-App-Image-2025-11-23-at-20-55-23-c8a27bfb.jpg',
-            title: 'Music Ministry',
-            description: 'Worship leadership'
-        },
-        {
-            id: 9,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/hJ57YZnb/Whats-App-Image-2025-11-23-at-20-55-24-0c8647d3.jpg',
-            title: 'Guitar Performance',
-            description: 'Showcasing guitar skills'
-        },
-        {
-            id: 10,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/tM9fQ0TP/Whats-App-Image-2025-11-23-at-20-55-27-11eceffc.jpg',
-            title: 'Worship Night',
-            description: 'Evening worship session'
-        },
-        {
-            id: 11,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/JRZ8f82t/Whats-App-Image-2025-11-23-at-20-55-28-631e09b6.jpg',
-            title: 'Studio Session',
-            description: 'Recording new music'
-        },
-        {
-            id: 12,
-            type: 'image',
-            category: 'performance',
-            src: 'https://i.ibb.co/9kML1Dgm/Whats-App-Image-2025-11-23-at-20-55-30-63ab6e83.jpg',
-            title: 'Concert Stage',
-            description: 'Live concert performance'
-        }
+        { id: 1, type: 'video', category: 'performance', src: 'https://www.youtube.com/embed/VIDEO_ID_1', title: 'Worship Session - Live Performance', description: 'Acoustic worship set at church event' },
+        { id: 2, type: 'video', category: 'performance', src: 'https://www.youtube.com/embed/VIDEO_ID_2', title: 'Original Song Performance', description: 'Live performance of original composition' },
+        { id: 3, type: 'video', category: 'performance', src: 'https://www.youtube.com/embed/VIDEO_ID_3', title: 'Guitar Instrumental', description: 'Solo guitar performance showcasing technique' },
+        { id: 4, type: 'image', category: 'performance', src: 'https://i.ibb.co/zhhBgbLB/Whats-App-Image-2025-11-23-at-20-54-57-6efe29df.jpg', title: 'Live Performance', description: 'Worship session at church event' },
+        { id: 5, type: 'image', category: 'performance', src: 'https://i.ibb.co/QvY8QXh9/Whats-App-Image-2025-11-23-at-20-55-00-77dac61c.jpg', title: 'Acoustic Set', description: 'Intimate acoustic performance' },
+        { id: 6, type: 'image', category: 'performance', src: 'https://i.ibb.co/Txdp62YL/Whats-App-Image-2025-11-23-at-20-55-02-5e8d5623.jpg', title: 'Church Service', description: 'Leading worship Sunday service' },
+        { id: 7, type: 'image', category: 'performance', src: 'https://i.ibb.co/nsD5cDX6/Whats-App-Image-2025-11-23-at-20-55-05-872d0a39.jpg', title: 'Community Event', description: 'Performing for local gathering' },
+        { id: 8, type: 'image', category: 'performance', src: 'https://i.ibb.co/xthzmTm6/Whats-App-Image-2025-11-23-at-20-55-23-c8a27bfb.jpg', title: 'Music Ministry', description: 'Worship leadership' },
+        { id: 9, type: 'image', category: 'performance', src: 'https://i.ibb.co/hJ57YZnb/Whats-App-Image-2025-11-23-at-20-55-24-0c8647d3.jpg', title: 'Guitar Performance', description: 'Showcasing guitar skills' },
+        { id: 10, type: 'image', category: 'performance', src: 'https://i.ibb.co/tM9fQ0TP/Whats-App-Image-2025-11-23-at-20-55-27-11eceffc.jpg', title: 'Worship Night', description: 'Evening worship session' },
+        { id: 11, type: 'image', category: 'performance', src: 'https://i.ibb.co/JRZ8f82t/Whats-App-Image-2025-11-23-at-20-55-28-631e09b6.jpg', title: 'Studio Session', description: 'Recording new music' },
+        { id: 12, type: 'image', category: 'performance', src: 'https://i.ibb.co/9kML1Dgm/Whats-App-Image-2025-11-23-at-20-55-30-63ab6e83.jpg', title: 'Concert Stage', description: 'Live concert performance' }
     ];
 
-        class GalleryManager {
-            constructor() {
-                this.currentFilter = 'all';
-                this.displayedItems = 8;
-                this.itemsPerLoad = 4;
-                this.currentScale = 1;
-                this.currentMediaIndex = 0;
-                this.filteredMedia = [];
-                
-                this.initializeElements();
-                this.setupEventListeners();
-                this.renderGallery();
-                this.setupScrollAnimations();
+    /* ---------- GalleryManager (mobile improvements included) ---------- */
+    class GalleryManager {
+      constructor() {
+        this.currentFilter = 'all';
+        this.displayedItems = 8;
+        this.itemsPerLoad = 4;
+        this.currentScale = 1;
+        this.currentMediaIndex = 0;
+        this.filteredMedia = [];
+        this.lastTap = 0;
+
+        this.initializeElements();
+        this.setupEventListeners();
+        this.adjustForNavbar(); // set initial padding
+        this.renderGallery();
+        this.setupScrollAnimations();
+      }
+
+      initializeElements() {
+        this.galleryGrid = document.getElementById('gallery-grid');
+        this.filterButtons = document.querySelectorAll('.filter-btn');
+        this.loadMoreContainer = document.getElementById('load-more-container');
+        this.loadMoreBtn = document.getElementById('load-more-btn');
+        this.modal = document.getElementById('media-modal');
+        this.closeBtn = document.querySelector('.close-btn');
+        this.prevBtn = document.querySelector('.prev-btn');
+        this.nextBtn = document.querySelector('.next-btn');
+        this.modalContent = document.getElementById('modal-content');
+        this.zoomInBtn = document.getElementById('zoom-in');
+        this.zoomOutBtn = document.getElementById('zoom-out');
+        this.resetZoomBtn = document.getElementById('reset-zoom');
+        this.zoomIndicator = document.getElementById('zoom-indicator');
+        this.navbar = document.getElementById('navbar');
+      }
+
+      setupEventListeners() {
+        // Filters
+        this.filterButtons.forEach(button => {
+          button.addEventListener('click', (e) => {
+            const filter = button.getAttribute('data-filter');
+            this.setActiveFilter(filter);
+          });
+        });
+
+        // Load more
+        if (this.loadMoreBtn) this.loadMoreBtn.addEventListener('click', () => this.loadMoreItems());
+
+        // Modal controls
+        if (this.closeBtn) this.closeBtn.addEventListener('click', () => this.closeModal());
+        if (this.prevBtn) this.prevBtn.addEventListener('click', () => this.showPreviousMedia());
+        if (this.nextBtn) this.nextBtn.addEventListener('click', () => this.showNextMedia());
+
+        // Close modal when clicking backdrop
+        if (this.modal) this.modal.addEventListener('click', e => { if (e.target === this.modal) this.closeModal(); });
+
+        // Keyboard nav (desktop)
+        document.addEventListener('keydown', (e) => {
+          if (this.modal.style.display === 'flex') {
+            if (e.key === 'Escape') this.closeModal();
+            if (e.key === 'ArrowLeft') this.showPreviousMedia();
+            if (e.key === 'ArrowRight') this.showNextMedia();
+          }
+        });
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 100) this.navbar.classList.add('nav-scrolled'); else this.navbar.classList.remove('nav-scrolled');
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuButton && mobileMenu) {
+          mobileMenuButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            mobileMenu.classList.toggle('hidden');
+            mobileMenu.classList.toggle('block');
+          });
+          const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+          mobileMenuLinks.forEach(link => link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('block'); }));
+          document.addEventListener('click', (event) => {
+            const isClickInsideNav = document.getElementById('navbar').contains(event.target);
+            if (!isClickInsideNav && !mobileMenu.classList.contains('hidden')) {
+              mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('block');
             }
-
-            initializeElements() {
-                this.galleryGrid = document.getElementById('gallery-grid');
-                this.filterButtons = document.querySelectorAll('.filter-btn');
-                this.loadMoreContainer = document.getElementById('load-more-container');
-                this.loadMoreBtn = document.getElementById('load-more-btn');
-                this.modal = document.getElementById('media-modal');
-                this.closeBtn = document.querySelector('.close-btn');
-                this.prevBtn = document.querySelector('.prev-btn');
-                this.nextBtn = document.querySelector('.next-btn');
-                this.modalContent = document.querySelector('.modal-content');
-                this.zoomInBtn = document.getElementById('zoom-in');
-                this.zoomOutBtn = document.getElementById('zoom-out');
-                this.resetZoomBtn = document.getElementById('reset-zoom');
-                this.zoomIndicator = document.getElementById('zoom-indicator');
-            }
-
-            setupEventListeners() {
-                // Filter buttons
-                this.filterButtons.forEach(button => {
-                    button.addEventListener('click', (e) => {
-                        const filter = e.target.getAttribute('data-filter');
-                        this.setActiveFilter(filter);
-                    });
-                });
-
-                // Load more button
-                this.loadMoreBtn.addEventListener('click', () => this.loadMoreItems());
-
-                // Modal controls
-                this.closeBtn.addEventListener('click', () => this.closeModal());
-                this.prevBtn.addEventListener('click', () => this.showPreviousMedia());
-                this.nextBtn.addEventListener('click', () => this.showNextMedia());
-                
-                // Close modal when clicking outside content
-                this.modal.addEventListener('click', (e) => {
-                    if (e.target === this.modal) {
-                        this.closeModal();
-                    }
-                });
-                
-                // Keyboard navigation
-                document.addEventListener('keydown', (e) => {
-                    if (this.modal.style.display === 'flex') {
-                        if (e.key === 'Escape') this.closeModal();
-                        if (e.key === 'ArrowLeft') this.showPreviousMedia();
-                        if (e.key === 'ArrowRight') this.showNextMedia();
-                    }
-                });
-
-                // Navbar scroll effect
-                window.addEventListener('scroll', () => {
-                    const navbar = document.getElementById('navbar');
-                    if (window.scrollY > 100) {
-                        navbar.classList.add('nav-scrolled');
-                    } else {
-                        navbar.classList.remove('nav-scrolled');
-                    }
-                });
-                
-                // Mobile menu toggle
-                const mobileMenuButton = document.getElementById('mobile-menu-button');
-                const mobileMenu = document.getElementById('mobile-menu');
-                
-                if (mobileMenuButton && mobileMenu) {
-                    mobileMenuButton.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        mobileMenu.classList.toggle('hidden');
-                        mobileMenu.classList.toggle('block');
-                    });
-                    
-                    // Close mobile menu when clicking a link
-                    const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
-                    mobileMenuLinks.forEach(link => {
-                        link.addEventListener('click', () => {
-                            mobileMenu.classList.add('hidden');
-                            mobileMenu.classList.remove('block');
-                        });
-                    });
-                    
-                    // Close mobile menu when clicking outside
-                    document.addEventListener('click', (event) => {
-                        const isClickInsideNav = document.getElementById('navbar').contains(event.target);
-                        if (!isClickInsideNav && !mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                            mobileMenu.classList.remove('block');
-                        }
-                    });
-                }
-            }
-
-            setActiveFilter(filter) {
-                this.currentFilter = filter;
-                this.displayedItems = 8;
-                
-                // Update active button
-                this.filterButtons.forEach(button => {
-                    if (button.getAttribute('data-filter') === filter) {
-                        button.classList.add('active');
-                        button.classList.remove('bg-gray-200');
-                        button.classList.add('bg-yellow-500', 'text-white');
-                    } else {
-                        button.classList.remove('active');
-                        button.classList.remove('bg-yellow-500', 'text-white');
-                        button.classList.add('bg-gray-200');
-                    }
-                });
-                
-                this.renderGallery();
-            }
-
-            renderGallery() {
-                // Filter media based on current filter
-                if (this.currentFilter === 'all') {
-                    this.filteredMedia = galleryData;
-                } else {
-                    this.filteredMedia = galleryData.filter(item => 
-                        item.type === this.currentFilter || item.category === this.currentFilter
-                    );
-                }
-                
-                // Clear gallery
-                this.galleryGrid.innerHTML = '';
-                
-                // Show message if no items
-                if (this.filteredMedia.length === 0) {
-                    this.galleryGrid.innerHTML = `
-                        <div class="col-span-full text-center py-12">
-                            <i class="fas fa-images text-5xl text-gray-400 mb-4"></i>
-                            <h3 class="text-xl font-semibold text-gray-600">No media found</h3>
-                            <p class="text-gray-500 mt-2">Try selecting a different filter</p>
-                        </div>
-                    `;
-                    this.loadMoreContainer.classList.add('hidden');
-                    return;
-                }
-                
-                // Determine how many items to show
-                const itemsToShow = Math.min(this.displayedItems, this.filteredMedia.length);
-                
-                // Add items to gallery
-                for (let i = 0; i < itemsToShow; i++) {
-                    const item = this.filteredMedia[i];
-                    const galleryItem = this.createGalleryItem(item, i);
-                    this.galleryGrid.appendChild(galleryItem);
-                }
-                
-                // Show/hide load more button
-                if (this.filteredMedia.length > this.displayedItems) {
-                    this.loadMoreContainer.classList.remove('hidden');
-                } else {
-                    this.loadMoreContainer.classList.add('hidden');
-                }
-                
-                // Trigger fade-in animations
-                setTimeout(() => {
-                    const items = document.querySelectorAll('.gallery-item');
-                    items.forEach(item => {
-                        item.classList.add('visible');
-                    });
-                }, 100);
-            }
-
-            createGalleryItem(item, index) {
-                const div = document.createElement('div');
-                div.className = 'gallery-item fade-in bg-white rounded-lg overflow-hidden shadow-md';
-                
-                if (item.type === 'image') {
-                    div.innerHTML = `
-                        <div class="relative overflow-hidden">
-                            <img src="${item.src}" alt="${item.title}" class="w-full h-48 object-cover transition-transform duration-500 hover:scale-105 gallery-img">
-                            <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
-                                <i class="fas fa-image mr-1"></i>Photo
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-1">${item.title}</h3>
-                            <p class="text-gray-600 text-sm">${item.description}</p>
-                        </div>
-                    `;
-                } else if (item.type === 'video') {
-                    div.innerHTML = `
-                        <div class="relative overflow-hidden">
-                            <div class="w-full h-48 bg-gray-800 flex items-center justify-center relative">
-                                <div class="w-full h-full bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center">
-                                    <i class="fas fa-music text-white text-4xl"></i>
-                                </div>
-                                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                                    <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
-                                        <i class="fas fa-play text-white text-xl"></i>
-                                    </div>
-                                </div>
-                                <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
-                                    <i class="fas fa-video mr-1"></i>Video
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-semibold text-lg mb-1">${item.title}</h3>
-                            <p class="text-gray-600 text-sm">${item.description}</p>
-                            <p class="text-blue-500 text-xs mt-2">
-                                <i class="fab fa-youtube mr-1"></i>Watch on YouTube
-                            </p>
-                        </div>
-                    `;
-                }
-                
-                // Add click event to open modal
-                div.addEventListener('click', () => this.openModal(index));
-                
-                return div;
-            }
-
-            loadMoreItems() {
-                this.displayedItems += this.itemsPerLoad;
-                this.renderGallery();
-                
-                // Scroll to newly loaded items
-                setTimeout(() => {
-                    const newItems = document.querySelectorAll('.gallery-item');
-                    if (newItems.length > 0) {
-                        newItems[newItems.length - 1].scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'nearest' 
-                        });
-                    }
-                }, 100);
-            }
-
-            openModal(index) {
-                this.currentMediaIndex = index;
-                const item = this.filteredMedia[index];
-                
-                if (item.type === 'image') {
-                    this.modalContent.innerHTML = `
-                        <img src="${item.src}" alt="${item.title}" class="modal-image high-quality-img" id="modal-image">
-                        <div class="image-info">
-                            <h3 class="font-semibold text-2xl mb-2">${item.title}</h3>
-                            <p class="text-xl">${item.description}</p>
-                        </div>
-                    `;
-                    
-                    // Add zoom functionality
-                    this.setupZoom();
-                } else if (item.type === 'video') {
-                    // For videos, redirect to YouTube channel
-                    window.open('https://youtube.com/@theunspokene', '_blank');
-                    return;
-                }
-                
-                this.modal.style.display = 'flex';
-                document.body.style.overflow = 'hidden';
-                document.documentElement.style.overflow = 'hidden';
-            }
-
-            setupZoom() {
-                const modalImage = document.getElementById('modal-image');
-                
-                // Reset zoom state
-                this.currentScale = 1;
-                this.updateZoom();
-                
-                // Remove existing event listeners and add new ones
-                this.zoomInBtn.onclick = () => this.zoomIn();
-                this.zoomOutBtn.onclick = () => this.zoomOut();
-                this.resetZoomBtn.onclick = () => this.resetZoom();
-                
-                // Double click to zoom
-                modalImage.addEventListener('dblclick', (e) => {
-                    e.preventDefault();
-                    if (this.currentScale === 1) {
-                        this.currentScale = 2;
-                    } else {
-                        this.currentScale = 1;
-                    }
-                    this.updateZoom();
-                });
-                
-                // Mouse wheel zoom
-                modalImage.addEventListener('wheel', (e) => {
-                    e.preventDefault();
-                    if (e.deltaY < 0) {
-                        // Zoom in
-                        if (this.currentScale < 4) {
-                            this.currentScale += 0.1;
-                        }
-                    } else {
-                        // Zoom out
-                        if (this.currentScale > 0.5) {
-                            this.currentScale -= 0.1;
-                        }
-                    }
-                    this.updateZoom();
-                });
-            }
-
-            zoomIn() {
-                if (this.currentScale < 4) {
-                    this.currentScale += 0.5;
-                    this.updateZoom();
-                }
-            }
-
-            zoomOut() {
-                if (this.currentScale > 0.5) {
-                    this.currentScale -= 0.5;
-                    this.updateZoom();
-                }
-            }
-
-            resetZoom() {
-                this.currentScale = 1;
-                this.updateZoom();
-            }
-
-            updateZoom() {
-                const modalImage = document.getElementById('modal-image');
-                if (modalImage) {
-                    modalImage.style.transform = `scale(${this.currentScale})`;
-                    this.zoomIndicator.textContent = `${Math.round(this.currentScale * 100)}%`;
-                    
-                    // Update button states
-                    this.zoomInBtn.disabled = this.currentScale >= 4;
-                    this.zoomOutBtn.disabled = this.currentScale <= 0.5;
-                    
-                    // Add/remove zoomed class for cursor styling
-                    if (this.currentScale > 1) {
-                        modalImage.classList.add('zoomed');
-                    } else {
-                        modalImage.classList.remove('zoomed');
-                    }
-                }
-            }
-
-            closeModal() {
-                this.modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-                document.documentElement.style.overflow = 'auto';
-                
-                // Reset zoom
-                this.currentScale = 1;
-            }
-
-            showPreviousMedia() {
-                this.currentMediaIndex = (this.currentMediaIndex - 1 + this.filteredMedia.length) % this.filteredMedia.length;
-                this.openModal(this.currentMediaIndex);
-            }
-
-            showNextMedia() {
-                this.currentMediaIndex = (this.currentMediaIndex + 1) % this.filteredMedia.length;
-                this.openModal(this.currentMediaIndex);
-            }
-
-            setupScrollAnimations() {
-                const fadeElements = document.querySelectorAll('.fade-in');
-                
-                const fadeInObserver = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting) {
-                            entry.target.classList.add('visible');
-                        }
-                    });
-                }, { threshold: 0.1 });
-                
-                fadeElements.forEach(element => {
-                    fadeInObserver.observe(element);
-                });
-            }
+          });
         }
 
-        // Initialize the gallery when DOM is loaded
-        document.addEventListener('DOMContentLoaded', () => {
-            new GalleryManager();
+        // Recalculate navbar height on resize/orientation change
+        window.addEventListener('resize', () => this.adjustForNavbar());
+        window.addEventListener('orientationchange', () => setTimeout(() => this.adjustForNavbar(), 280));
+      }
+
+      adjustForNavbar() {
+        const navHeight = this.navbar ? this.navbar.offsetHeight : 0;
+        const banner = document.querySelector('.festive-banner');
+        const bannerHeight = banner ? banner.offsetHeight : 0;
+        
+        // Set body padding to account for fixed navbar and banner
+        document.body.style.paddingTop = (navHeight + bannerHeight) + 'px';
+        
+        // Adjust filter section sticky position
+        const filterSection = document.querySelector('.sticky');
+        if (filterSection) {
+          filterSection.style.top = (navHeight + bannerHeight) + 'px';
+        }
+      }
+
+      setActiveFilter(filter) {
+        this.currentFilter = filter;
+        this.displayedItems = 8;
+        this.filterButtons.forEach(button => {
+          if (button.getAttribute('data-filter') === filter) {
+            button.classList.add('active');
+            button.classList.remove('bg-gray-200');
+            button.classList.add('bg-yellow-400', 'text-white');
+          } else {
+            button.classList.remove('active');
+            button.classList.remove('bg-yellow-400', 'text-white');
+            button.classList.add('bg-gray-200');
+          }
         });
-    </script>
+        this.renderGallery();
+      }
+
+      renderGallery() {
+        if (this.currentFilter === 'all') this.filteredMedia = galleryData.slice();
+        else this.filteredMedia = galleryData.filter(i => i.type === this.currentFilter || i.category === this.currentFilter);
+
+        this.galleryGrid.innerHTML = '';
+
+        if (this.filteredMedia.length === 0) {
+          this.galleryGrid.innerHTML = `
+            <div class="col-span-full text-center py-12">
+              <i class="fas fa-images text-5xl text-gray-400 mb-4"></i>
+              <h3 class="text-xl font-semibold text-gray-600">No media found</h3>
+              <p class="text-gray-500 mt-2">Try selecting a different filter</p>
+            </div>`;
+          this.loadMoreContainer.classList.add('hidden');
+          return;
+        }
+
+        const itemsToShow = Math.min(this.displayedItems, this.filteredMedia.length);
+        for (let i = 0; i < itemsToShow; i++) {
+          const item = this.filteredMedia[i];
+          const galleryItem = this.createGalleryItem(item, i);
+          this.galleryGrid.appendChild(galleryItem);
+        }
+
+        if (this.filteredMedia.length > this.displayedItems) this.loadMoreContainer.classList.remove('hidden'); else this.loadMoreContainer.classList.add('hidden');
+
+        // fade-in
+        setTimeout(() => {
+          document.querySelectorAll('.gallery-item').forEach(el => el.classList.add('visible'));
+        }, 80);
+      }
+
+      createGalleryItem(item, index) {
+        const div = document.createElement('div');
+        div.className = 'gallery-item fade-in bg-white rounded-lg overflow-hidden shadow-md';
+
+        if (item.type === 'image') {
+          div.innerHTML = `
+            <div class="relative overflow-hidden">
+              <img src="${item.src}" alt="${item.title}" class="gallery-img" loading="lazy" decoding="async" />
+              <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
+                <i class="fas fa-image mr-1"></i>Photo
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-lg mb-1">${item.title}</h3>
+              <p class="text-gray-600 text-sm">${item.description}</p>
+            </div>`;
+        } else {
+          div.innerHTML = `
+            <div class="relative overflow-hidden">
+              <div class="w-full h-48 bg-gray-800 flex items-center justify-center relative">
+                <div class="w-full h-full bg-gradient-to-br from-blue-600 to-purple-700 flex items-center justify-center">
+                  <i class="fas fa-music text-white text-4xl"></i>
+                </div>
+                <div class="absolute inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                  <div class="w-16 h-16 bg-red-600 rounded-full flex items-center justify-center">
+                    <i class="fas fa-play text-white text-xl"></i>
+                  </div>
+                </div>
+                <div class="absolute top-2 right-2 bg-black bg-opacity-50 text-white px-2 py-1 rounded text-xs">
+                  <i class="fas fa-video mr-1"></i>Video
+                </div>
+              </div>
+            </div>
+            <div class="p-4">
+              <h3 class="font-semibold text-lg mb-1">${item.title}</h3>
+              <p class="text-gray-600 text-sm">${item.description}</p>
+              <p class="text-blue-500 text-xs mt-2"><i class="fab fa-youtube mr-1"></i>Watch on YouTube</p>
+            </div>`;
+        }
+
+        // open modal
+        div.addEventListener('click', () => this.openModal(index));
+        return div;
+      }
+
+      loadMoreItems() {
+        this.displayedItems += this.itemsPerLoad;
+        this.renderGallery();
+        setTimeout(() => {
+          const items = document.querySelectorAll('.gallery-item');
+          if (items.length) items[items.length-1].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
+      }
+
+      openModal(index) {
+        this.currentMediaIndex = index;
+        const item = this.filteredMedia[index];
+
+        if (!item) return;
+
+        if (item.type === 'image') {
+          this.modalContent.innerHTML = `
+            <img src="${item.src}" alt="${item.title}" id="modal-image" class="modal-image high-quality-img" />
+            <div class="image-info">
+              <h3 class="font-semibold text-2xl mb-1">${item.title}</h3>
+              <p class="text-sm md:text-base">${item.description}</p>
+            </div>`;
+          this.setupZoom();
+        } else {
+          // open youtube on click (keeps modal simple on mobile)
+          const url = item.src && item.src.includes('youtube') ? item.src : 'https://youtube.com/@theunspokene';
+          window.open(url, '_blank');
+          return;
+        }
+
+        this.modal.style.display = 'flex';
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+        this.adjustForNavbar();
+      }
+
+      setupZoom() {
+        const modalImage = document.getElementById('modal-image');
+        if (!modalImage) return;
+
+        this.currentScale = 1;
+        this.updateZoom();
+
+        // Buttons
+        this.zoomInBtn.onclick = () => this.zoomIn();
+        this.zoomOutBtn.onclick = () => this.zoomOut();
+        this.resetZoomBtn.onclick = () => this.resetZoom();
+
+        // Mouse wheel (desktop)
+        modalImage.onwheel = (e) => {
+          if (e.deltaY < 0 && this.currentScale < 4) this.currentScale = Math.min(4, this.currentScale + 0.1);
+          if (e.deltaY > 0 && this.currentScale > 0.5) this.currentScale = Math.max(0.5, this.currentScale - 0.1);
+          this.updateZoom();
+          e.preventDefault();
+        };
+
+        // Double-click (desktop)
+        modalImage.ondblclick = () => { this.currentScale = (this.currentScale === 1) ? 2 : 1; this.updateZoom(); };
+
+        // Double-tap (mobile)
+        modalImage.addEventListener('touchend', (ev) => {
+          const now = Date.now();
+          const diff = now - this.lastTap;
+          if (diff < 300 && diff > 0) {
+            this.currentScale = (this.currentScale === 1) ? 2 : 1;
+            this.updateZoom();
+            ev.preventDefault();
+          }
+          this.lastTap = now;
+        });
+
+        // Panning when zoomed (pointer)
+        let isPanning = false, startX = 0, startY = 0;
+        modalImage.style.transformOrigin = 'center center';
+
+        modalImage.addEventListener('pointerdown', (e) => {
+          if (this.currentScale <= 1) return;
+          isPanning = true;
+          startX = e.clientX;
+          startY = e.clientY;
+          modalImage.setPointerCapture(e.pointerId);
+          modalImage.style.transition = 'none';
+        });
+
+        modalImage.addEventListener('pointermove', (e) => {
+          if (!isPanning) return;
+          const dx = e.clientX - startX;
+          const dy = e.clientY - startY;
+          modalImage.style.transform = `scale(${this.currentScale}) translate(${dx / this.currentScale}px, ${dy / this.currentScale}px)`;
+        });
+
+        modalImage.addEventListener('pointerup', (e) => {
+          if (!isPanning) return;
+          isPanning = false;
+          modalImage.releasePointerCapture(e.pointerId);
+          modalImage.style.transition = 'transform .18s ease';
+        });
+      }
+
+      zoomIn() { if (this.currentScale < 4) { this.currentScale = Math.min(4, this.currentScale + 0.5); this.updateZoom(); } }
+      zoomOut() { if (this.currentScale > 0.5) { this.currentScale = Math.max(0.5, this.currentScale - 0.5); this.updateZoom(); } }
+      resetZoom() { this.currentScale = 1; this.updateZoom(); const mi = document.getElementById('modal-image'); if (mi) mi.style.transform = 'scale(1)'; }
+
+      updateZoom() {
+        const modalImage = document.getElementById('modal-image');
+        if (!modalImage) return;
+        modalImage.style.transform = `scale(${this.currentScale})`;
+        if (this.zoomIndicator) this.zoomIndicator.textContent = `${Math.round(this.currentScale * 100)}%`;
+        if (this.zoomInBtn) this.zoomInBtn.disabled = (this.currentScale >= 4);
+        if (this.zoomOutBtn) this.zoomOutBtn.disabled = (this.currentScale <= 0.5);
+        if (this.currentScale > 1) modalImage.classList.add('zoomed'); else modalImage.classList.remove('zoomed');
+      }
+
+      closeModal() {
+        this.modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.documentElement.style.overflow = 'auto';
+        this.currentScale = 1;
+        this.modalContent.innerHTML = '';
+      }
+
+      showPreviousMedia() {
+        this.currentMediaIndex = (this.currentMediaIndex - 1 + this.filteredMedia.length) % this.filteredMedia.length;
+        this.openModal(this.currentMediaIndex);
+      }
+
+      showNextMedia() {
+        this.currentMediaIndex = (this.currentMediaIndex + 1) % this.filteredMedia.length;
+        this.openModal(this.currentMediaIndex);
+      }
+
+      setupScrollAnimations() {
+        const fadeEls = document.querySelectorAll('.fade-in');
+        const obs = new IntersectionObserver((entries) => {
+          entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+        }, { threshold: 0.08 });
+        fadeEls.forEach(el => obs.observe(el));
+      }
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      new GalleryManager();
+    });
+  </script>
 </body>
 </html>
