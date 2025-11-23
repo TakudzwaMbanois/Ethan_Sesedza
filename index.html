@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unspoken E | Christian Artist & Musician</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a252f;
+            --festive-red: #c62828;
+            --festive-green: #2e7d32;
+            --festive-gold: #ffd700;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
+                        url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--secondary), transparent);
+            margin: 2rem auto;
+            width: 80%;
+        }
+        
+        .nav-scrolled {
+            background-color: rgba(26, 37, 47, 0.95);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .music-icon {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .festive-banner {
+            background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .festive-banner::before {
+            content: "🎄🎅";
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+        
+        .festive-banner::after {
+            content: "🎁✨";
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 24px;
+        }
+        
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            color: white;
+            font-size: 14px;
+            user-select: none;
+            z-index: 1000;
+            animation: snowfall linear infinite;
+        }
+        
+        @keyframes snowfall {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+        
+        .festive-card {
+            border: 2px solid var(--festive-gold);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .festive-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--festive-red), var(--festive-green), var(--festive-red));
+        }
+        
+        .whatsapp-float {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 40px;
+            right: 40px;
+            background-color: #25d366;
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 3px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .whatsapp-float:hover {
+            background-color: #128C7E;
+            transform: scale(1.1);
+        }
+        
+        .developer-credit {
+            background-color: var(--dark);
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        /* Mobile Responsive Fixes */
+        @media (max-width: 768px) {
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .festive-banner::before,
+            .festive-banner::after {
+                display: none;
+            }
+            
+            .festive-banner p {
+                font-size: 0.9rem;
+                padding: 0 1rem;
+            }
+            
+            .hero-bg h1 {
+                font-size: 2.5rem !important;
+            }
+            
+            .hero-bg p {
+                font-size: 1rem !important;
+            }
+            
+            .whatsapp-float {
+                width: 50px;
+                height: 50px;
+                bottom: 20px;
+                right: 20px;
+                font-size: 24px;
+            }
+            
+            .mobile-padding {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .mobile-text-center {
+                text-align: center;
+            }
+        }
+        
+        /* Ensure proper image display */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Fix mobile menu z-index */
+        #mobile-menu {
+            z-index: 1000;
+        }
+        
+        /* Improve button touch targets on mobile */
+        button, a.btn {
+            min-height: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Fix form elements on mobile */
+        input, select, textarea {
+            font-size: 16px;
+        }
+        
+        /* Smooth transitions for all interactive elements */
+        * {
+            transition: all 0.2s ease;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- Festive Banner -->
+    <div class="festive-banner">
+        <p class="text-lg font-bold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
+    </div>
+    
+    <!-- Snowflakes -->
+    <div id="snowflakes-container"></div>
+    
+    <!-- WhatsApp Float Button -->
+    <a href="https://wa.me/919588511784?text=Hi%20Takudzwa,%20I'm%20interested%20in%20your%20web%20development%20services" 
+       class="whatsapp-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-4">
+        <div class="container mx-auto px-4 md:px-6 flex justify-between items-center">
+            <a href="#" class="text-xl font-bold text-white flex items-center">
+                <i class="fas fa-music text-yellow-400 mr-2 music-icon"></i>
+                <span class="hidden sm:inline">The Unspoken E</span>
+                <span class="sm:hidden">Unspoken E</span>
+            </a>
+            
+            <div class="hidden md:flex space-x-6 lg:space-x-8">
+                <a href="#home" class="text-white hover:text-yellow-400 transition-colors">Home</a>
+                <a href="#about" class="text-white hover:text-yellow-400 transition-colors">About</a>
+                <a href="#experience" class="text-white hover:text-yellow-400 transition-colors">Experience</a>
+                <a href="#influences" class="text-white hover:text-yellow-400 transition-colors">Influences</a>
+                <a href="gallery.html" class="text-white hover:text-yellow-400 transition-colors">Gallery</a>
+            </div>
+            
+            <div class="flex items-center space-x-4">
+                <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-full transition-all shadow-lg text-sm md:text-base">
+                    Book Now
+                </a>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-button" class="md:hidden text-white">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg">
+            <div class="flex flex-col space-y-4 p-6">
+                <a href="#home" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Home</a>
+                <a href="#about" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">About</a>
+                <a href="#experience" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Experience</a>
+                <a href="#influences" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Influences</a>
+                <a href="#contact" class="text-white hover:text-yellow-400 transition-colors text-lg py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center text-white pt-20">
+        <div class="container mx-auto px-4 md:px-6 text-center">
+            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 fade-in">The Unspoken E</h1>
+            <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 fade-in">Christian Artist | Guitarist | Songwriter | Vocalist</p>
+            <p class="text-base sm:text-lg max-w-2xl mx-auto mb-8 md:mb-10 fade-in mobile-padding">Blending heartfelt storytelling, acoustic worship, and soul-infused melodies from Zimbabwe</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4 md:space-x-6 fade-in">
+                <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg">
+                    Book for Event
+                </a>
+                <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-semibold transition-all">
+                    Learn More
+                </a>
+            </div>
+            
+            <div class="mt-12 md:mt-16 flex justify-center space-x-6 md:space-x-8 fade-in">
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://wa.me/263782190381" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors" target="_blank">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+            </div>
+        </div>
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+            <a href="#about" class="text-white animate-bounce">
+                <i class="fas fa-chevron-down text-2xl"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">About The Artist</h2>
+            
+            <div class="flex flex-col lg:flex-row items-center">
+                <div class="lg:w-1/3 mb-8 lg:mb-0 fade-in">
+                    <div class="rounded-full overflow-hidden w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto shadow-xl">
+                        <img src="https://i.ibb.co/7xSFpPsk/img.png" 
+                             alt="Ethan Tanatsiwa Sesedza" class="w-full h-full object-cover">
+                    </div>
+                </div>
+                
+                <div class="lg:w-2/3 lg:pl-8 xl:pl-12 fade-in mobile-padding mobile-text-center lg:text-left">
+                    <h3 class="text-2xl font-bold mb-4">Ethan Tanatsiwa Sesedza</h3>
+                    <p class="text-base sm:text-lg mb-4 md:mb-6">
+                        The Unspoken E is a Zimbabwean Christian artist whose music blends heartfelt storytelling, acoustic worship, and soul-infused melodies. Known for his stripped-down, honest sound and impactful songwriting, Ethan draws inspiration from both local and global greats.
+                    </p>
+                    <p class="text-base sm:text-lg mb-4 md:mb-6">
+                        With a passion for developing original music, mentoring upcoming talent, and using music as a tool for community impact, Ethan is committed to building the Zimbabwean music scene with authenticity and excellence.
+                    </p>
+                    
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6 md:mt-8">
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <i class="fas fa-guitar text-yellow-500 text-lg md:text-xl mr-3"></i>
+                            <span class="text-sm sm:text-base">Acoustic Guitar</span>
+                        </div>
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <i class="fas fa-pen text-yellow-500 text-lg md:text-xl mr-3"></i>
+                            <span class="text-sm sm:text-base">Songwriting</span>
+                        </div>
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <i class="fas fa-microphone text-yellow-500 text-lg md:text-xl mr-3"></i>
+                            <span class="text-sm sm:text-base">Vocal Performance</span>
+                        </div>
+                        <div class="flex items-center justify-center lg:justify-start">
+                            <i class="fas fa-users text-yellow-500 text-lg md:text-xl mr-3"></i>
+                            <span class="text-sm sm:text-base">Music Workshop Facilitation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Festive Discounts Section -->
+    <section class="py-12 md:py-16 bg-gradient-to-r from-red-50 to-green-50">
+        <div class="container mx-auto px-4 md:px-6">
+            <div class="text-center mb-10 md:mb-12 fade-in">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-green-800">🎄 Festive Season Specials 🎄</h2>
+                <p class="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto mobile-padding">Celebrate this holiday season with soulful music and special discounts!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
+                    <div class="text-center mb-4">
+                        <span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">20% OFF</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-green-800">Church Events</h3>
+                    <p class="text-gray-600 text-center mb-4">Special rates for Christmas and New Year services</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Worship sessions</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Carol performances</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Special hymns arrangement</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
+                    <div class="text-center mb-4">
+                        <span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">15% OFF</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-green-800">Community Events</h3>
+                    <p class="text-gray-600 text-center mb-4">Bringing festive cheer to your gatherings</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Christmas parties</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Corporate events</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Family celebrations</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
+                    <div class="text-center mb-4">
+                        <span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">25% OFF</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-center mb-4 text-green-800">Music Workshops</h3>
+                    <p class="text-gray-600 text-center mb-4">Learn guitar and vocals this holiday season</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Beginner guitar lessons</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Worship song training</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-green-500 mr-2"></i>
+                            <span class="text-sm sm:text-base">Group sessions available</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8 md:mt-10 fade-in">
+                <p class="text-base sm:text-lg text-gray-700 mb-6 mobile-padding">Offer valid until December 31st. Limited slots available!</p>
+                <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 sm:px-8 sm:py-3 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg inline-flex items-center">
+                    <i class="fas fa-gift mr-2"></i> Claim Your Festive Discount
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-16 md:py-20 bg-gray-100">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Experience & Highlights</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Founder & Lead</h3>
+                    <p class="text-gray-600 mb-4">Morning Star Music Club | 2023 - Present</p>
+                    <p class="text-gray-700 text-sm sm:text-base">Organizing performances, mentoring students, and curating worship sessions.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        <i class="fas fa-church"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Music Ministry Contributor</h3>
+                    <p class="text-gray-600 mb-4">2019 - Present</p>
+                    <p class="text-gray-700 text-sm sm:text-base">Regular performances in church events and Christian community gatherings.</p>
+                </div>
+                
+                <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
+                    <div class="text-yellow-500 text-3xl mb-4">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Brand Support</h3>
+                    <p class="text-gray-600 mb-4">Makhedamus (Bulawayo Rapper) | 2024 - Present</p>
+                    <p class="text-gray-700 text-sm sm:text-base">Assisting with artist development, booking, and promotional content.</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 md:mt-16 fade-in">
+                <h3 class="text-2xl font-bold text-center mb-6 md:mb-8">Skills & Expertise</h3>
+                <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                        <i class="fas fa-guitar text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
+                        <p class="font-semibold text-sm sm:text-base">Acoustic Guitar</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                        <i class="fas fa-pen text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
+                        <p class="font-semibold text-sm sm:text-base">Songwriting</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                        <i class="fas fa-microphone text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
+                        <p class="font-semibold text-sm sm:text-base">Vocal Performance</p>
+                    </div>
+                    <div class="bg-white rounded-lg p-4 text-center shadow-md">
+                        <i class="fas fa-video text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
+                        <p class="font-semibold text-sm sm:text-base">Digital Content Creation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Influences Section -->
+    <section id="influences" class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Musical Influences</h2>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 fade-in">
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Oliver Mtukudzi</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Jonathan Ogden</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Cageless Birds</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Jonathan Butler</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Nat King Cole</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">Eric Clapton</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">The Beatles</p>
+                </div>
+                <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors">
+                    <p class="font-semibold text-sm sm:text-base">BB King</p>
+                </div>
+            </div>
+            
+            <div class="mt-10 md:mt-12 text-center fade-in mobile-padding">
+                <p class="text-base sm:text-lg max-w-3xl mx-auto">
+                    "Drawing inspiration from both local Zimbabwean legends and international icons, my music reflects a blend of cultural richness and universal appeal."
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 md:py-20 bg-gray-900 text-white">
+        <div class="container mx-auto px-4 md:px-6">
+            <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 md:mb-16 fade-in">Get In Touch</h2>
+            
+            <div class="flex flex-col lg:flex-row justify-between gap-8 md:gap-12">
+                <div class="lg:w-1/2 mb-8 lg:mb-0 fade-in">
+                    <h3 class="text-2xl font-bold mb-6">Booking & Inquiries</h3>
+                    <p class="text-base sm:text-lg mb-6 md:mb-8">
+                        Interested in booking The Unspoken E for your church event, concert, or community gathering? Reach out through any of the channels below.
+                    </p>
+                    
+                    <div class="space-y-4 mb-8">
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-yellow-500 text-lg md:text-xl mr-4"></i>
+                            <span class="text-sm sm:text-base">unspokenemusic@gmail.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-yellow-500 text-lg md:text-xl mr-4"></i>
+                            <span class="text-sm sm:text-base">Zimbabwe</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-whatsapp text-yellow-500 text-lg md:text-xl mr-4"></i>
+                            <span class="text-sm sm:text-base">+263 78 219 0381</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex space-x-4 md:space-x-6">
+                        <a href="#" class="bg-blue-700 hover:bg-blue-800 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-youtube text-white text-lg"></i>
+                        </a>
+                        <a href="#" class="bg-pink-600 hover:bg-pink-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-instagram text-white text-lg"></i>
+                        </a>
+                        <a href="#" class="bg-blue-600 hover:bg-blue-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors">
+                            <i class="fab fa-facebook-f text-white text-lg"></i>
+                        </a>
+                        <a href="https://wa.me/263782190381" class="bg-green-500 hover:bg-green-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors" target="_blank">
+                            <i class="fab fa-whatsapp text-white text-lg"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="lg:w-1/2 fade-in">
+                    <h3 class="text-2xl font-bold mb-6">Send a Message via WhatsApp</h3>
+                    <form id="whatsapp-form" class="space-y-4">
+                        <div>
+                            <label for="name" class="block mb-2 text-sm sm:text-base">Your Name</label>
+                            <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-yellow-500 text-sm sm:text-base" required>
+                        </div>
+                        <div>
+                            <label for="email" class="block mb-2 text-sm sm:text-base">Your Email</label>
+                            <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-yellow-500 text-sm sm:text-base">
+                        </div>
+                        <div>
+                            <label for="event-type" class="block mb-2 text-sm sm:text-base">Event Type</label>
+                            <select id="event-type" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-yellow-500 text-sm sm:text-base">
+                                <option value="">Select an option</option>
+                                <option value="Church Service">Church Service</option>
+                                <option value="Wedding">Wedding</option>
+                                <option value="Concert">Concert</option>
+                                <option value="Community Event">Community Event</option>
+                                <option value="Music Workshop">Music Workshop</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="message" class="block mb-2 text-sm sm:text-base">Your Message</label>
+                            <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none focus:border-yellow-500 text-sm sm:text-base" required></textarea>
+                        </div>
+                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors w-full flex items-center justify-center text-sm sm:text-base">
+                            <i class="fab fa-whatsapp mr-2"></i> Send via WhatsApp
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4 md:px-6 text-center">
+            <p class="text-sm sm:text-base">&copy; 2023 The Unspoken E. All rights reserved.</p>
+            <p class="mt-2 text-gray-400 text-sm">Christian Artist | Guitarist | Songwriter | Vocalist</p>
+        </div>
+    </footer>
+    
+    <!-- Developer Credit -->
+    <div class="developer-credit">
+        <p class="text-sm">Website developed by <strong>Takudzwa Mbano</strong> | 
+           <a href="https://wa.me/919588511784?text=Hi%20Takudzwa,%20I'm%20interested%20in%20your%20web%20development%20services" 
+              class="text-yellow-400 hover:text-yellow-300 underline" target="_blank">
+              WhatsApp me @ +919588511784
+           </a>
+        </p>
+    </div>
+
+    <script>
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            
+            const fadeInObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            fadeElements.forEach(element => {
+                fadeInObserver.observe(element);
+            });
+            
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 100) {
+                    navbar.classList.add('nav-scrolled');
+                } else {
+                    navbar.classList.remove('nav-scrolled');
+                }
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function(e) {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('hidden');
+                mobileMenu.classList.toggle('block');
+            });
+            
+            // Close mobile menu when clicking a link
+            const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('block');
+                });
+            });
+            
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                const isClickInsideNav = document.getElementById('navbar').contains(event.target);
+                if (!isClickInsideNav && !mobileMenu.classList.contains('hidden')) {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenu.classList.remove('block');
+                }
+            });
+            
+            // WhatsApp form submission
+            const whatsappForm = document.getElementById('whatsapp-form');
+            whatsappForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const eventType = document.getElementById('event-type').value;
+                const message = document.getElementById('message').value;
+                
+                // Format the message for WhatsApp
+                let whatsappMessage = `Hello Ethan! I'm interested in booking you for an event.%0A%0A`;
+                whatsappMessage += `*Name:* ${name}%0A`;
+                if (email) whatsappMessage += `*Email:* ${email}%0A`;
+                if (eventType) whatsappMessage += `*Event Type:* ${eventType}%0A`;
+                whatsappMessage += `*Message:* ${message}%0A%0A`;
+                whatsappMessage += `I came across your website and would like to discuss further details.`;
+                
+                // Open WhatsApp with the pre-filled message
+                window.open(`https://wa.me/263782190381?text=${whatsappMessage}`, '_blank');
+                
+                // Reset the form
+                whatsappForm.reset();
+            });
+            
+            // Create snowflakes
+            function createSnowflakes() {
+                const container = document.getElementById('snowflakes-container');
+                const snowflakes = ['❅', '❆', '•', '·'];
+                
+                for (let i = 0; i < 50; i++) {
+                    const snowflake = document.createElement('div');
+                    snowflake.className = 'snowflake';
+                    snowflake.textContent = snowflakes[Math.floor(Math.random() * snowflakes.length)];
+                    snowflake.style.left = Math.random() * 100 + 'vw';
+                    snowflake.style.animationDuration = (Math.random() * 5 + 5) + 's';
+                    snowflake.style.animationDelay = Math.random() * 5 + 's';
+                    snowflake.style.opacity = Math.random();
+                    container.appendChild(snowflake);
+                }
+            }
+            
+            createSnowflakes();
+        });
+    </script>
+</body>
+</html>
