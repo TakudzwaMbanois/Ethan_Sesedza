@@ -9,334 +9,334 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root{
-            --primary: #2c3e50;
-            --yellow: #F6C23E;
-            --dark: #1a252f;
-            --festive-red: #c62828;
-            --festive-green: #2e7d32;
-        }
-        
-        /* Reset and base styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    --primary: #2c3e50;
+    --yellow: #F6C23E;
+    --dark: #1a252f;
+    --festive-red: #c62828;
+    --festive-green: #2e7d32;
+}
 
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        body {
-            font-family: 'Montserrat', sans-serif;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            background-color: #f8fafc;
-            color: #1f2937;
-            scroll-behavior: smooth;
-        }
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
 
-        h1, h2, h3, h4 {
-            font-family: 'Playfair Display', serif;
-        }
+body {
+    font-family: 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: #f8fafc;
+    color: #1f2937;
+    scroll-behavior: smooth;
+}
 
-        /* Navigation */
-        #navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background-color: #1a252f;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-            margin: 0;
-            padding: 0.75rem 0;
-        }
+h1, h2, h3, h4 {
+    font-family: 'Playfair Display', serif;
+}
 
-        .nav-scrolled {
-            background-color: #1a252f;
-        }
+/* Navigation */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #1a252f;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    margin: 0;
+    padding: 0.75rem 0;
+}
 
-        /* Animations */
-        .music-icon { 
-            animation: pulse 2s infinite; 
-        }
-        
-        @keyframes pulse { 
-            0% { transform: scale(1); } 
-            50% { transform: scale(1.06); } 
-            100% { transform: scale(1); } 
-        }
+.nav-scrolled {
+    background-color: #1a252f;
+}
 
-        .fade-in { 
-            opacity: 0; 
-            transform: translateY(12px); 
-            transition: opacity .6s ease, transform .6s ease; 
-        }
-        
-        .fade-in.visible { 
-            opacity: 1; 
-            transform: translateY(0); 
-        }
+/* Animations */
+.music-icon { 
+    animation: pulse 2s infinite; 
+}
 
-        .card-hover { 
-            transition: all .28s ease; 
-        }
-        
-        .card-hover:hover { 
-            transform: translateY(-6px); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.12); 
-        }
+@keyframes pulse { 
+    0% { transform: scale(1); } 
+    50% { transform: scale(1.06); } 
+    100% { transform: scale(1); } 
+}
 
-        /* Festive Banner - FIXED SPACING */
-        .festive-banner {
-            margin-top: 64px;
-            background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
-            color: white;
-            padding: 0.75rem 0;
-            text-align: center;
-            position: relative;
-            z-index: 999;
-        }
+.fade-in { 
+    opacity: 0; 
+    transform: translateY(12px); 
+    transition: opacity .6s ease, transform .6s ease; 
+}
 
-        /* HERO SECTION - FIXED SPACING */
-        .hero-bg {
-            background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
-                        url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            margin: 0;
-            padding-top: 2rem; /* ADDED SPACING FROM BANNER */
-            padding-bottom: 2rem;
-        }
+.fade-in.visible { 
+    opacity: 1; 
+    transform: translateY(0); 
+}
 
-        .festive-card {
-            border: 2px solid var(--festive-gold);
-            position: relative;
-            overflow: hidden;
-        }
+.card-hover { 
+    transition: all .28s ease; 
+}
 
-        .festive-card::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, var(--festive-red), var(--festive-green), var(--festive-red));
-        }
+.card-hover:hover { 
+    transform: translateY(-6px); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12); 
+}
 
-        .whatsapp-float {
-            position: fixed;
-            width: 60px;
-            height: 60px;
-            bottom: 28px;
-            right: 20px;
-            background-color: #25d366;
-            color: #FFF;
-            border-radius: 50px;
-            text-align: center;
-            font-size: 26px;
-            box-shadow: 2px 4px 10px rgba(0,0,0,0.14);
-            z-index: 1200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform .14s ease;
-        }
+/* Festive Banner */
+.festive-banner {
+    margin-top: 64px;
+    background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
+    color: white;
+    padding: 0.75rem 0;
+    text-align: center;
+    position: relative;
+    z-index: 999;
+}
 
-        .whatsapp-float:hover {
-            transform: scale(1.08);
-            background-color: #128C7E;
-        }
+/* Hero Section - CLOSE GAP */
+.hero-bg {
+    background: linear-gradient(rgba(26, 37, 47, 0.85), rgba(26, 37, 47, 0.85)), 
+                url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin: 0;
+    padding-top: 0.5rem;
+    padding-bottom: 2rem;
+}
 
-        .developer-credit {
-            background-color: var(--dark);
-            color: white;
-            padding: 0.625rem 0;
-            text-align: center;
-            font-size: 0.875rem;
-        }
+.festive-card {
+    border: 2px solid var(--festive-gold);
+    position: relative;
+    overflow: hidden;
+}
 
-        /* Mobile-first responsive design */
-        @media (max-width: 768px) {
-            #navbar {
-                padding: 0.625rem 0;
-            }
+.festive-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, var(--festive-red), var(--festive-green), var(--festive-red));
+}
 
-            .festive-banner {
-                margin-top: 56px;
-                padding: 0.625rem 0;
-            }
+.whatsapp-float {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 28px;
+    right: 20px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 26px;
+    box-shadow: 2px 4px 10px rgba(0,0,0,0.14);
+    z-index: 1200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform .14s ease;
+}
 
-            .festive-banner p {
-                font-size: 0.8rem;
-                padding: 0 1rem;
-                line-height: 1.3;
-            }
+.whatsapp-float:hover {
+    transform: scale(1.08);
+    background-color: #128C7E;
+}
 
-            .whatsapp-float {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 24px;
-            }
+.developer-credit {
+    background-color: var(--dark);
+    color: white;
+    padding: 0.625rem 0;
+    text-align: center;
+    font-size: 0.875rem;
+}
 
-            .mobile-padding {
-                padding-left: 1rem;
-                padding-right: 1rem;
-            }
+/* Mobile-first responsive design */
+@media (max-width: 768px) {
+    #navbar {
+        padding: 0.625rem 0;
+    }
 
-            .mobile-text-center {
-                text-align: center;
-            }
-            
-            /* Hero section mobile optimizations - FIXED SPACING */
-            .hero-bg {
-                min-height: 85vh;
-                padding-top: 2rem; /* SPACING FROM BANNER */
-                padding-bottom: 2rem;
-            }
-            
-            #home .container {
-                padding-top: 0;
-                padding-bottom: 0;
-            }
-            
-            .hero-bg h1 {
-                font-size: 2rem;
-                margin-bottom: 0.75rem;
-                line-height: 1.1;
-            }
-            
-            .hero-bg .text-lg {
-                font-size: 1rem;
-                margin-bottom: 0.75rem;
-            }
-            
-            .hero-bg .text-base {
-                font-size: 0.9rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.4;
-            }
-            
-            /* Optimize button spacing */
-            .flex-col.sm\:flex-row {
-                gap: 0.75rem;
-            }
-            
-            .space-y-4 {
-                gap: 0.75rem;
-            }
-            
-            /* Optimize social icons */
-            .space-x-6 {
-                gap: 1rem;
-            }
-            
-            .mt-12 {
-                margin-top: 2rem;
-            }
-            
-            .md\:mt-16 {
-                margin-top: 2.5rem;
-            }
-            
-            /* Arrow positioning */
-            .bottom-10 {
-                bottom: 2rem;
-            }
-        }
+    .festive-banner {
+        margin-top: 56px;
+        padding: 0.625rem 0;
+    }
 
-        @media (max-width: 480px) {
-            .festive-banner {
-                margin-top: 52px;
-                padding: 0.5rem 0;
-            }
+    .festive-banner p {
+        font-size: 0.8rem;
+        padding: 0 1rem;
+        line-height: 1.3;
+    }
 
-            .festive-banner p {
-                font-size: 0.75rem;
-                padding: 0 0.5rem;
-            }
-            
-            .hero-bg {
-                min-height: 80vh;
-                padding-top: 1.5rem; /* SPACING FROM BANNER */
-                padding-bottom: 1.5rem;
-            }
-            
-            .hero-bg h1 {
-                font-size: 1.75rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .hero-bg .text-lg {
-                font-size: 0.95rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .hero-bg .text-base {
-                font-size: 0.85rem;
-                margin-bottom: 1.25rem;
-            }
-            
-            .bottom-10 {
-                bottom: 1.5rem;
-            }
-        }
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+    }
 
-        /* Ensure proper image display */
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-        }
+    .mobile-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
 
-        /* Fix mobile menu z-index */
-        #mobile-menu {
-            z-index: 1001;
-        }
+    .mobile-text-center {
+        text-align: center;
+    }
+    
+    /* Hero section mobile optimizations - CLOSE GAP */
+    .hero-bg {
+        min-height: 85vh;
+        padding-top: 0.25rem;
+        padding-bottom: 2rem;
+    }
+    
+    #home .container {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+    
+    .hero-bg h1 {
+        font-size: 2rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.1;
+    }
+    
+    .hero-bg .text-lg {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .hero-bg .text-base {
+        font-size: 0.9rem;
+        margin-bottom: 1.5rem;
+        line-height: 1.4;
+    }
+    
+    /* Optimize button spacing */
+    .flex-col.sm\:flex-row {
+        gap: 0.75rem;
+    }
+    
+    .space-y-4 {
+        gap: 0.75rem;
+    }
+    
+    /* Optimize social icons */
+    .space-x-6 {
+        gap: 1rem;
+    }
+    
+    .mt-12 {
+        margin-top: 2rem;
+    }
+    
+    .md\:mt-16 {
+        margin-top: 2.5rem;
+    }
+    
+    /* Arrow positioning */
+    .bottom-10 {
+        bottom: 2rem;
+    }
+}
 
-        /* Improve button touch targets */
-        button, a.btn {
-            min-height: 44px;
-            min-width: 44px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
+@media (max-width: 480px) {
+    .festive-banner {
+        margin-top: 52px;
+        padding: 0.5rem 0;
+    }
 
-        /* Fix form elements */
-        input, select, textarea {
-            font-size: 16px;
-            min-height: 44px;
-        }
-        
-        /* Section spacing */
-        section {
-            padding-top: 4rem;
-            padding-bottom: 4rem;
-        }
-        
-        @media (min-width: 768px) {
-            section {
-                padding-top: 5rem;
-                padding-bottom: 5rem;
-            }
-        }
-        
-        /* Fix for arrow alignment */
-        .transform.-translate-x-1\/2 {
-            display: flex !important;
-            justify-content: center !important;
-            align-items: center !important;
-            width: 100% !important;
-        }
+    .festive-banner p {
+        font-size: 0.75rem;
+        padding: 0 0.5rem;
+    }
+    
+    .hero-bg {
+        min-height: 80vh;
+        padding-top: 0.25rem;
+        padding-bottom: 1.5rem;
+    }
+    
+    .hero-bg h1 {
+        font-size: 1.75rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-bg .text-lg {
+        font-size: 0.95rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .hero-bg .text-base {
+        font-size: 0.85rem;
+        margin-bottom: 1.25rem;
+    }
+    
+    .bottom-10 {
+        bottom: 1.5rem;
+    }
+}
+
+/* Ensure proper image display */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Fix mobile menu z-index */
+#mobile-menu {
+    z-index: 1001;
+}
+
+/* Improve button touch targets */
+button, a.btn {
+    min-height: 44px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Fix form elements */
+input, select, textarea {
+    font-size: 16px;
+    min-height: 44px;
+}
+
+/* Section spacing */
+section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+@media (min-width: 768px) {
+    section {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+}
+
+/* Fix for arrow alignment */
+.transform.-translate-x-1\/2 {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
