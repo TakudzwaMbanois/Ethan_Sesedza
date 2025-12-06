@@ -17,12 +17,20 @@
   <style>
     :root{
       --primary: #2c3e50;
-      --yellow: #F6C23E; /* african yellow */
-      --nav-height: 64px;
+      --yellow: #F6C23E;
+      --nav-height: 64px;    /* JS overrides */
+      --banner-height: 0px;  /* JS overrides */
     }
 
-    html,body { height: 100%; margin: 0; padding: 0; }
-    body {
+    html,body{
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* base */
+    * { box-sizing: border-box; }
+    body{
       font-family: 'Montserrat', sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -30,87 +38,142 @@
       color: #1f2937;
       overflow-x: hidden;
       scroll-behavior: smooth;
+      /* ONLY account for fixed nav here — DO NOT add banner height */
       padding-top: var(--nav-height);
     }
 
-    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    h1,h2,h3,h4{ font-family: 'Playfair Display', serif; margin:0; }
 
-    /* NAVBAR */
-    #navbar { position: fixed; top:0; left:0; right:0; z-index:1100; background-color:#1a252f; box-shadow:0 2px 10px rgba(0,0,0,0.12); margin:0; padding:0.75rem 0; }
-    .nav-scrolled { background-color:#1a252f; }
+    /* NAV */
+    #navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1200;
+      background-color: #1a252f;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+      margin: 0;
+      padding: 12px 0;
+    }
+    #navbar .container { display:flex; align-items:center; justify-content:space-between; gap:12px; }
 
-    .festive-banner { position: relative; z-index:1050; background: linear-gradient(45deg, #c62828, #2e7d32); color:white; padding:15px 0; text-align:center; border:none; margin-bottom:0; }
+    .nav-scrolled { background-color: #162027; }
 
-    /* Gallery styling */
-    .gallery-item { transition: all .28s ease; cursor: pointer; -webkit-tap-highlight-color: rgba(0,0,0,0); }
-    .gallery-item:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
+    /* FESTIVE BANNER - IN DOCUMENT FLOW (not fixed) so it occupies real space */
+    .festive-banner {
+      position: relative;
+      z-index: 1100;
+      background: linear-gradient(45deg, #c62828, #2e7d32);
+      color: white;
+      padding: 8px 0;         /* tightened spacing */
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+      line-height: 1.1;
+      margin: 0;              /* ensure no extra margins */
+    }
 
+    /* HERO - tightened so heading sits close to banner */
+    .hero-section {
+      background: linear-gradient(rgba(26,37,47,0.9), rgba(26,37,47,0.9)), linear-gradient(90deg,#1f2937,#3b3f9a);
+      background-size: cover;
+      background-position: center;
+      min-height: 34vh;      /* reduced so it pulls up */
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding: 2rem 0;       /* reduced vertical padding */
+      color: white;
+      text-align:center;
+      margin: 0;             /* remove default section margins */
+    }
+
+    .hero-section h1 { margin-bottom:6px; }
+    .hero-section p  { margin:0; }
+
+    /* Filters (sticky under banner). JS computes nav + banner for sticky position */
+    .filters-section {
+      background: #ffffff;
+      padding: 8px 0;
+      box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+      margin: 0;
+    }
+    .filters-section.sticky {
+      position: sticky;
+      top: calc(var(--nav-height)); /* JS will set banner height for filter sticking below nav+banner */
+      z-index: 1150;
+    }
+
+    /* Gallery grid + images */
     #gallery-grid { grid-auto-rows: minmax(120px, auto); }
+    .gallery-img {
+      width: 100%;
+      height: auto;
+      max-height: 36vh;
+      object-fit: cover;
+      display: block;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+    }
 
-    .gallery-img { width:100%; height:auto; max-height:40vh; object-fit:cover; display:block; backface-visibility:hidden; transform: translateZ(0); }
-
-    .modal { display:none; position:fixed; inset:0; width:100%; height:100%; background-color: rgba(0,0,0,0.96); z-index:2000; justify-content:center; align-items:center; padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom); }
-    .modal-content { position:relative; max-width:1100px; width:100%; max-height: calc(100vh - 120px); display:flex; justify-content:center; align-items:center; overflow:hidden; }
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.96);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom);
+    }
+    .modal-content { position: relative; max-width: 1100px; width: 100%; max-height: calc(100vh - 120px); display:flex; justify-content:center; align-items:center; overflow:hidden; }
     .modal-image { width:auto; height:auto; max-width: calc(100vw - 40px); max-height: calc(100vh - 160px); object-fit: contain; transition: transform .2s ease; cursor: zoom-in; touch-action: none; }
-    .modal-image.zoomed { cursor: grab; }
 
-    .close-btn { position:absolute; top:20px; right:22px; color:white; font-size:40px; font-weight:bold; cursor:pointer; z-index:2100; background: rgba(0,0,0,0.6); width:52px; height:52px; border-radius:50%; display:flex;align-items:center;justify-content:center; transition: transform .18s ease, background .18s ease; }
-    .close-btn:hover { transform: scale(1.06); background: rgba(0,0,0,0.8); }
+    /* niceties */
+    .fade-in { opacity: 0; transform: translateY(8px); transition: opacity .45s ease, transform .45s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-    .nav-btn { position:absolute; top:50%; transform: translateY(-50%); color:white; font-size:34px; cursor:pointer; z-index:2100; background-color: rgba(0,0,0,0.6); width:56px; height:56px; border-radius:50%; display:flex;align-items:center;justify-content:center; transition: transform .18s ease, background .18s ease; }
-    .nav-btn:hover { transform: translateY(-50%) scale(1.06); background-color: rgba(0,0,0,0.85); }
-    .prev-btn { left:16px; } .next-btn { right:16px; }
-
-    .image-info { position:absolute; bottom:0; left:0; right:0; background: linear-gradient(transparent, rgba(0,0,0,0.9)); color:white; padding:22px 18px 18px; text-align:center; z-index:2100; pointer-events:none; }
-
-    .zoom-controls { position:absolute; bottom:14px; right:14px; z-index:2100; display:flex; gap:10px; }
-    .zoom-btn { background: rgba(0,0,0,0.6); color:white; border:none; width:46px; height:46px; border-radius:50%; display:flex;align-items:center;justify-content:center; cursor:pointer; font-size:16px; transition: transform .12s ease, background .12s ease; }
-    .zoom-btn:hover { transform: scale(1.06); background: rgba(0,0,0,0.8); }
-    .zoom-btn:disabled { opacity: 0.48; cursor:not-allowed; transform:none; }
-
-    .zoom-indicator { position:absolute; top:18px; left:18px; background: rgba(0,0,0,0.6); color:white; padding:8px 12px; border-radius:18px; font-size:13px; z-index:2100; }
-
-    .fade-in { opacity:0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
-    .fade-in.visible { opacity:1; transform: translateY(0); }
-
-    .loader { border:5px solid #f3f3f3; border-top:5px solid #F6C23E; border-radius:50%; width:50px; height:50px; animation: spin 1.6s linear infinite; margin:20px auto; }
+    .loader { border: 5px solid #f3f3f3; border-top: 5px solid #F6C23E; border-radius: 50%; width: 44px; height: 44px; animation: spin 1.6s linear infinite; margin: 16px auto; }
     @keyframes spin { 0%{transform:rotate(0)} 100%{transform:rotate(360deg)} }
 
-    .whatsapp-float { position: fixed; width:60px; height:60px; bottom:28px; right:20px; background-color:#25d366; color:#FFF; border-radius:50px; text-align:center; font-size:26px; box-shadow:2px 4px 10px rgba(0,0,0,0.14); z-index:1200; display:flex;align-items:center;justify-content:center; transition: transform .14s ease; }
-    .whatsapp-float:hover { transform: scale(1.08); background-color:#128C7E; }
+    .whatsapp-float { position: fixed; width:56px; height:56px; bottom:22px; right:18px; background-color:#25d366; color:#FFF; border-radius:50px; text-align:center; font-size:24px; box-shadow:2px 4px 10px rgba(0,0,0,0.14); z-index:1300; display:flex;align-items:center;justify-content:center; transition: transform .14s ease; }
+    .whatsapp-float:hover { transform: scale(1.06); background-color:#128C7E; }
 
+    /* ensure anchor targets are visible (account for nav only) */
+    section, header, footer { scroll-margin-top: var(--nav-height); }
+
+    /* mobile tweaks */
     @media (max-width: 768px) {
-      #navbar { padding:12px 0; }
-      .festive-banner { padding:12px 0; }
-      .gallery-img { max-height:36vh; }
-      .modal-image { max-height: calc(100vh - 140px); max-width: calc(100vw - 32px); }
-      .close-btn { top:14px; right:14px; font-size:34px; width:48px; height:48px; }
-      .nav-btn { width:48px; height:48px; font-size:28px; }
-      .zoom-btn { width:44px; height:44px; font-size:15px; }
-      .image-info { padding:14px 12px 12px; font-size:14px; }
-      .music-icon { display:inline-block; }
-      .hero-section { padding-top: 80px !important; }
+      :root { --nav-height: 56px; } /* fallback until JS runs */
+      #navbar { padding: 10px 0; }
+      .festive-banner { padding: 6px 0; font-size:0.9rem; }
+      .hero-section { min-height: 30vh; padding: 1.6rem 0; }
+      .gallery-img { max-height: 34vh; }
+      .loader { width:40px; height:40px; border-width:4px; }
+      .filters-section { padding: 6px 0; }
     }
 
-    @media (max-width:480px) {
-      .festive-banner p { font-size:0.75rem; padding:0 0.5rem; }
-      #navbar { padding:10px 0; }
+    @media (max-width: 480px) {
+      .festive-banner { font-size: 0.86rem; padding: 6px 0; }
+      .hero-section { min-height: 28vh; padding: 1.2rem 0; }
+      .gallery-img { max-height: 30vh; }
     }
 
-    /* clickable sizes */
-    button, a.btn { min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center; }
-
-    /* safe area */
+    button, a.btn { min-height: 44px; min-width: 44px; display:inline-flex; align-items:center; justify-content:center; }
     body { padding-bottom: env(safe-area-inset-bottom); }
   </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
   <!-- NAV (fixed) -->
-  <nav id="navbar" class="w-full text-white py-3" role="navigation" aria-label="Main">
+  <nav id="navbar" class="w-full text-white" role="navigation" aria-label="Main">
     <div class="container mx-auto px-4 md:px-6 flex items-center justify-between">
       <a href="index.html" class="flex items-center gap-2 text-lg font-bold">
-        <i class="fas fa-music text-yellow-400 music-icon"></i>
+        <i class="fas fa-music text-yellow-400 music-icon" aria-hidden="true"></i>
         <span class="hidden sm:inline">The Unspoken E</span>
         <span class="sm:hidden">Unspoken E</span>
       </a>
@@ -127,14 +190,14 @@
         <a href="index.html#contact" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full shadow text-sm md:text-base transition-colors">Book Now</a>
 
         <!-- mobile menu button -->
-        <button id="mobile-menu-button" class="md:hidden text-white p-2" aria-label="Open menu">
-          <i class="fas fa-bars text-xl"></i>
+        <button id="mobile-menu-button" class="md:hidden text-white p-2" aria-label="Open menu" aria-expanded="false">
+          <i class="fas fa-bars text-xl" aria-hidden="true"></i>
         </button>
       </div>
     </div>
 
     <!-- mobile menu -->
-    <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg top-full">
+    <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg top-full" aria-hidden="true">
       <div class="flex flex-col space-y-0 p-4">
         <a href="index.html" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">Home</a>
         <a href="index.html#about" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors">About</a>
@@ -145,28 +208,28 @@
     </div>
   </nav>
 
-  <!-- FESTIVE BANNER -->
-  <div class="festive-banner">
+  <!-- FESTIVE BANNER (in flow, directly below nav) -->
+  <div class="festive-banner" role="region" aria-label="Festive banner">
     <p class="text-sm sm:text-base font-semibold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
   </div>
 
   <!-- WhatsApp Float -->
   <a href="https://wa.me/263782190381?text=Hi%20Ethan,%20I'm%20interested%20in%20your%20music%20services" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
-    <i class="fab fa-whatsapp"></i>
+    <i class="fab fa-whatsapp" aria-hidden="true"></i>
   </a>
 
   <!-- HERO -->
-  <section class="hero-section bg-gradient-to-r from-blue-900 to-purple-900 min-h-[36vh] flex items-center justify-center text-white">
+  <section class="hero-section" aria-labelledby="gallery-heading">
     <div class="container mx-auto px-4 text-center">
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-2">Gallery</h1>
-      <p class="text-sm sm:text-base max-w-2xl mx-auto">A visual journey through performances, moments, and musical expressions</p>
+      <h1 id="gallery-heading" class="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 fade-in">Gallery</h1>
+      <p class="text-sm sm:text-base max-w-2xl mx-auto fade-in">A visual journey through performances, moments, and musical expressions</p>
     </div>
   </section>
 
-  <!-- Filters -->
-  <section class="py-6 bg-white sticky top-0 z-30 shadow-sm" style="top: calc(var(--nav-height) + 0.75rem);">
+  <!-- Filters (sticky) -->
+  <section class="filters-section sticky" aria-label="Gallery filters">
     <div class="container mx-auto px-4 md:px-6">
-      <div class="flex flex-wrap justify-center gap-3">
+      <div class="flex flex-wrap justify-center gap-3 py-1">
         <button class="filter-btn active px-4 py-2 rounded-full bg-yellow-400 text-white transition-colors" data-filter="all">All Media</button>
         <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="image"><i class="fas fa-image mr-2"></i>Photos</button>
         <button class="filter-btn px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors" data-filter="video"><i class="fas fa-video mr-2"></i>Videos</button>
@@ -176,13 +239,13 @@
   </section>
 
   <!-- Gallery Grid -->
-  <section class="py-8 bg-gray-50">
+  <section class="py-6 bg-gray-50">
     <div class="container mx-auto px-4 md:px-6">
       <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div class="col-span-full text-center py-12"><div class="loader"></div></div>
+        <div class="col-span-full text-center py-8"><div class="loader" aria-hidden="true"></div></div>
       </div>
 
-      <div id="load-more-container" class="text-center mt-10 hidden">
+      <div id="load-more-container" class="text-center mt-8 hidden">
         <button id="load-more-btn" class="bg-yellow-400 hover:bg-yellow-500 text-black px-6 py-3 rounded-lg font-semibold transition-colors">Load More</button>
       </div>
     </div>
@@ -238,7 +301,7 @@
         { id: 12, type: 'image', category: 'performance', src: 'https://i.ibb.co/9kML1Dgm/Whats-App-Image-2025-11-23-at-20-55-30-63ab6e83.jpg', title: 'Concert Stage', description: 'Live concert performance' }
     ];
 
-    /* ---------- GalleryManager (mobile improvements included) ---------- */
+    /* ---------- GalleryManager (unchanged behaviour) ---------- */
     class GalleryManager {
       constructor() {
         this.currentFilter = 'all';
@@ -251,7 +314,7 @@
 
         this.initializeElements();
         this.setupEventListeners();
-        this.adjustForNavbar(); // set initial padding
+        this.adjustForNavbar(); // set initial padding & sticky positions
         this.renderGallery();
         this.setupScrollAnimations();
       }
@@ -313,8 +376,11 @@
         if (mobileMenuButton && mobileMenu) {
           mobileMenuButton.addEventListener('click', (e) => {
             e.stopPropagation();
+            const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+            mobileMenuButton.setAttribute('aria-expanded', String(!expanded));
             mobileMenu.classList.toggle('hidden');
             mobileMenu.classList.toggle('block');
+            mobileMenu.setAttribute('aria-hidden', String(expanded));
           });
           const mobileMenuLinks = document.querySelectorAll('#mobile-menu a');
           mobileMenuLinks.forEach(link => link.addEventListener('click', () => { mobileMenu.classList.add('hidden'); mobileMenu.classList.remove('block'); }));
@@ -335,13 +401,17 @@
         const navHeight = this.navbar ? this.navbar.offsetHeight : 0;
         const banner = document.querySelector('.festive-banner');
         const bannerHeight = banner ? banner.offsetHeight : 0;
-        
-        // Set body padding to account for fixed navbar and banner
-        document.body.style.paddingTop = (navHeight + bannerHeight) + 'px';
-        document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
 
-        // Adjust filter section sticky position
-        const filterSection = document.querySelector('.sticky');
+        // expose values to CSS
+        document.documentElement.style.setProperty('--nav-height', navHeight + 'px');
+        document.documentElement.style.setProperty('--banner-height', bannerHeight + 'px');
+
+        // IMPORTANT: body padding-top must account for NAV ONLY.
+        // Banner sits in normal flow so don't add bannerHeight here (that caused the white gap).
+        document.body.style.paddingTop = navHeight + 'px';
+
+        // Adjust filter sticky position so it sits directly under banner when it becomes sticky:
+        const filterSection = document.querySelector('.filters-section.sticky');
         if (filterSection) {
           filterSection.style.top = (navHeight + bannerHeight) + 'px';
         }
@@ -583,22 +653,32 @@
 
     // Initialize
     document.addEventListener('DOMContentLoaded', () => {
-      // Set nav height and body padding
-      function setNavHeightGallery(){
+      // compute sizes and set CSS vars
+      function updateLayoutVars(){
         const nav = document.getElementById('navbar');
         const banner = document.querySelector('.festive-banner');
         const navH = nav ? nav.offsetHeight : 0;
         const bannerH = banner ? banner.offsetHeight : 0;
         document.documentElement.style.setProperty('--nav-height', navH + 'px');
-        document.body.style.paddingTop = (navH + bannerH) + 'px';
+        document.documentElement.style.setProperty('--banner-height', bannerH + 'px');
+
+        // IMPORTANT: body padding-top should only include nav height.
+        // Banner is in flow so it will occupy its own space directly below the nav.
+        document.body.style.paddingTop = navH + 'px';
+
+        // ensure sticky filters sit under nav + banner when they stick
+        const filter = document.querySelector('.filters-section.sticky');
+        if (filter) filter.style.top = (navH + bannerH) + 'px';
       }
-      setNavHeightGallery();
-      window.addEventListener('resize', setNavHeightGallery);
-      window.addEventListener('orientationchange', () => setTimeout(setNavHeightGallery, 200));
+
+      updateLayoutVars();
+      window.addEventListener('resize', updateLayoutVars);
+      window.addEventListener('orientationchange', () => setTimeout(updateLayoutVars, 180));
 
       new GalleryManager();
     });
   </script>
 </body>
 </html>
+
 
