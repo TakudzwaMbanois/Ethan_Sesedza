@@ -1,551 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>The Unspoken E | Christian Artist & Musician</title>
-
-  <!-- Tailwind CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-  <style>
-    :root{
-      --primary: #2c3e50;
-      --yellow: #F6C23E;
-      --dark: #1a252f;
-      --festive-red: #c62828;
-      --festive-green: #2e7d32;
-      --nav-height: 64px; /* fallback, overridden by JS */
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Website Temporarily Unavailable</title>
+<style>
+    *{
+        margin:0;
+        padding:0;
+        box-sizing:border-box;
+        font-family:Arial, sans-serif;
     }
 
-    /* Reset */
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Montserrat', sans-serif;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background-color: #f8fafc;
-      color: #1f2937;
-      overflow-x: hidden;
-      /* ensure content starts below fixed nav */
-      padding-top: var(--nav-height);
+    body{
+        background:#f4f6f8;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        height:100vh;
+        padding:20px;
     }
 
-    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
-
-    /* Navbar */
-    #navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      z-index: 1200;
-      background-color: var(--dark);
-      box-shadow: 0 2px 10px rgba(0,0,0,0.12);
-      padding: 0.75rem 0;
-    }
-    #navbar .container { display:flex; align-items:center; justify-content:space-between; gap:12px; }
-
-    /* Banner (placed below nav) */
-    .festive-banner {
-      position: relative;
-      z-index: 1100; /* below navbar */
-      background: linear-gradient(45deg, var(--festive-red), var(--festive-green));
-      color: white;
-      padding: 0.45rem 0;
-      text-align: center;
+    .box{
+        background:#ffffff;
+        max-width:500px;
+        width:100%;
+        padding:40px 30px;
+        border-radius:14px;
+        box-shadow:0 10px 30px rgba(0,0,0,0.08);
+        text-align:center;
     }
 
-    /* Make anchor targets not sit under the nav */
-    section, header, footer {
-      scroll-margin-top: calc(var(--nav-height));
+    h1{
+        color:#111827;
+        font-size:28px;
+        margin-bottom:15px;
     }
 
-    /* Hero */
-    .hero-bg {
-      background: linear-gradient(rgba(26,37,47,0.85), rgba(26,37,47,0.85)), url('https://images.unsplash.com/photo-1511379938547-c1f69419868d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80');
-      background-size: cover;
-      background-position: center;
-      min-height: 80vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      padding: 4rem 0;
-      color: white;
+    p{
+        color:#6b7280;
+        font-size:16px;
+        line-height:1.7;
+        margin-bottom:14px;
     }
 
-    .music-icon { animation: pulse 2s infinite; }
-    @keyframes pulse { 0%{transform:scale(1)} 50%{transform:scale(1.06)} 100%{transform:scale(1)} }
-
-    .fade-in { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; }
-    .fade-in.visible { opacity: 1; transform: translateY(0); }
-    .card-hover { transition: all .28s ease; }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 10px 30px rgba(0,0,0,0.12); }
-
-    .whatsapp-float {
-      position: fixed;
-      width: 60px;
-      height: 60px;
-      bottom: 28px;
-      right: 20px;
-      background-color: #25d366;
-      color: #FFF;
-      border-radius: 50px;
-      text-align: center;
-      font-size: 26px;
-      box-shadow: 2px 4px 10px rgba(0,0,0,0.14);
-      z-index: 1300;
-      display:flex;align-items:center;justify-content:center;
+    .highlight{
+        color:#2563eb;
+        font-weight:bold;
     }
-    .whatsapp-float:hover { transform: scale(1.06); background-color:#128C7E; }
-
-    /* Festive card small helper (kept original look) */
-    .festive-card::before { content: ""; position: absolute; top: 0; left:0; right:0; height:5px; background: linear-gradient(90deg, var(--festive-red), var(--festive-green), var(--festive-red)); }
-
-    /* Mobile tweaks */
-    @media (max-width: 768px) {
-      :root { --nav-height: 56px; } /* fallback while JS runs */
-      #navbar { padding: 0.6rem 0; }
-      .festive-banner { padding: 0.35rem 0; }
-      .hero-bg { min-height: 75vh; padding: 3rem 0; }
-      body { padding-top: var(--nav-height); }
-    }
-
-    @media (max-width: 480px) {
-      .festive-banner p { font-size: 0.78rem; padding: 0 0.5rem; }
-      .hero-bg { min-height: 70vh; }
-    }
-
-    img { max-width: 100%; height: auto; display: block; }
-
-    button, a.btn { min-height:44px; min-width:44px; display:inline-flex; align-items:center; justify-content:center; }
-  </style>
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-  <!-- NAV (fixed) -->
-  <nav id="navbar" class="w-full text-white" role="navigation" aria-label="Main navigation">
-    <div class="container mx-auto px-4 md:px-6">
-      <a href="#home" class="flex items-center gap-3 text-lg font-bold">
-        <i class="fas fa-music text-yellow-400 music-icon" aria-hidden="true"></i>
-        <span class="hidden sm:inline">The Unspoken E</span>
-        <span class="sm:hidden">Unspoken E</span>
-      </a>
+<div class="box">
+    <h1>Website Temporarily Unavailable</h1>
+    <p>This website has been temporarily shut down pending subscription renewal.</p>
+    <p>Please contact your developer for assistance and reactivation.</p>
+    <p class="highlight">Thank you for your understanding.</p>
+</div>
 
-      <div class="hidden md:flex items-center space-x-6">
-        <a href="#home" class="hover:text-yellow-400 transition-colors py-2">Home</a>
-        <a href="#about" class="hover:text-yellow-400 transition-colors py-2">About</a>
-        <a href="#experience" class="hover:text-yellow-400 transition-colors py-2">Experience</a>
-        <a href="#influences" class="hover:text-yellow-400 transition-colors py-2">Influences</a>
-        <a href="gallery.html" class="hover:text-yellow-400 transition-colors py-2">Gallery</a>
-        <a href="#contact" class="hover:text-yellow-400 transition-colors py-2">Contact</a>
-      </div>
-
-      <div class="flex items-center gap-3">
-        <a href="#contact" class="bg-yellow-400 hover:bg-yellow-500 text-black px-4 py-2 rounded-full shadow text-sm md:text-base transition-colors">Book Now</a>
-
-        <!-- mobile menu button -->
-        <button id="mobile-menu-button" class="md:hidden text-white p-2" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
-          <i class="fas fa-bars text-xl" aria-hidden="true"></i>
-        </button>
-      </div>
-    </div>
-
-    <!-- mobile menu -->
-    <div id="mobile-menu" class="md:hidden bg-gray-800 absolute w-full hidden shadow-lg top-full" role="menu" aria-hidden="true">
-      <div class="flex flex-col space-y-0 p-4">
-        <a href="#home" class="text-yellow-400 font-semibold pl-2 border-l-4 border-yellow-400 text-lg py-3 px-4 border-b border-gray-700" role="menuitem">Home</a>
-        <a href="#about" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors" role="menuitem">About</a>
-        <a href="#experience" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors" role="menuitem">Experience</a>
-        <a href="#influences" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors" role="menuitem">Influences</a>
-        <a href="gallery.html" class="text-white text-lg py-3 px-4 border-b border-gray-700 hover:text-yellow-400 transition-colors" role="menuitem">Gallery</a>
-        <a href="#contact" class="text-white text-lg py-3 px-4 hover:text-yellow-400 transition-colors" role="menuitem">Contact</a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- FESTIVE BANNER (moved below nav) -->
-  <div class="festive-banner" role="region" aria-label="Festive banner">
-    <p class="text-sm sm:text-base font-semibold">🎉 FESTIVE SEASON SPECIAL! Massive discounts on bookings for December events! 🎉</p>
-  </div>
-
-  <!-- WhatsApp Float -->
-  <a href="https://wa.me/263782190381?text=Hi%20Ethan,%20I'm%20interested%20in%20your%20music%20services" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
-    <i class="fab fa-whatsapp" aria-hidden="true"></i>
-  </a>
-
-  <!-- Hero -->
-  <section id="home" class="hero-bg">
-    <div class="container mx-auto px-4 md:px-6 text-center">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 md:mb-6 fade-in">The Unspoken E</h1>
-      <p class="text-lg sm:text-xl md:text-2xl mb-6 md:mb-8 fade-in">Christian Artist | Guitarist | Songwriter | Vocalist</p>
-      <p class="text-base sm:text-lg max-w-2xl mx-auto mb-8 md:mb-10 fade-in">Blending heartfelt storytelling, acoustic worship, and soul-infused melodies from Zimbabwe</p>
-
-      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 md:gap-6 fade-in">
-        <a href="#contact" class="bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg min-w-[200px] text-center">Book for Event</a>
-        <a href="#about" class="border-2 border-white hover:bg-white hover:text-gray-900 text-white px-8 py-4 rounded-full text-base sm:text-lg font-semibold transition-all min-w-[200px] text-center">Learn More</a>
-      </div>
-
-      <div class="mt-12 md:mt-16 flex justify-center space-x-6 md:space-x-8 fade-in">
-        <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
-        <a href="https://wa.me/263782190381" class="text-white hover:text-yellow-400 text-xl md:text-2xl transition-colors p-2" aria-label="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      </div>
-
-      <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
-        <a href="#about" class="text-white animate-bounce flex items-center justify-center w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20" aria-label="Scroll down">
-          <i class="fas fa-chevron-down text-xl"></i>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- About -->
-  <section id="about" class="bg-white">
-    <div class="container mx-auto px-4 md:px-6 py-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 fade-in">About The Artist</h2>
-
-      <div class="flex flex-col lg:flex-row items-center">
-        <div class="lg:w-1/3 mb-8 lg:mb-0 fade-in">
-          <div class="rounded-full overflow-hidden w-48 h-48 sm:w-56 sm:h-56 md:w-64 md:h-64 mx-auto shadow-xl">
-            <img src="https://i.ibb.co/7xSFpPsk/img.png" alt="Ethan Tanatsiwa Sesedza" class="w-full h-full object-cover" />
-          </div>
-        </div>
-
-        <div class="lg:w-2/3 lg:pl-8 xl:pl-12 fade-in mobile-padding mobile-text-center lg:text-left">
-          <h3 class="text-2xl font-bold mb-4">Ethan Tanatsiwa Sesedza</h3>
-          <p class="text-base sm:text-lg mb-4">The Unspoken E is a Zimbabwean Christian artist whose music blends heartfelt storytelling, acoustic worship, and soul-infused melodies. Known for his stripped-down, honest sound and impactful songwriting, Ethan draws inspiration from both local and global greats.</p>
-          <p class="text-base sm:text-lg mb-4">With a passion for developing original music, mentoring upcoming talent, and using music as a tool for community impact, Ethan is committed to building the Zimbabwean music scene with authenticity and excellence.</p>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 mt-6">
-            <div class="flex items-center lg:justify-start">
-              <i class="fas fa-guitar text-yellow-500 text-lg md:text-xl mr-3"></i>
-              <span class="text-sm sm:text-base">Acoustic Guitar</span>
-            </div>
-            <div class="flex items-center lg:justify-start">
-              <i class="fas fa-pen text-yellow-500 text-lg md:text-xl mr-3"></i>
-              <span class="text-sm sm:text-base">Songwriting</span>
-            </div>
-            <div class="flex items-center lg:justify-start">
-              <i class="fas fa-microphone text-yellow-500 text-lg md:text-xl mr-3"></i>
-              <span class="text-sm sm:text-base">Vocal Performance</span>
-            </div>
-            <div class="flex items-center lg:justify-start">
-              <i class="fas fa-users text-yellow-500 text-lg md:text-xl mr-3"></i>
-              <span class="text-sm sm:text-base">Music Workshop Facilitation</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Festive Discounts -->
-  <section class="bg-gradient-to-r from-red-50 to-green-50">
-    <div class="container mx-auto px-4 md:px-6 py-12">
-      <div class="text-center mb-10 fade-in">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-green-800">🎄 Festive Season Specials 🎄</h2>
-        <p class="text-lg sm:text-xl text-gray-700 max-w-3xl mx-auto">Celebrate this holiday season with soulful music and special discounts!</p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
-          <div class="text-center mb-4"><span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">20% OFF</span></div>
-          <h3 class="text-xl font-bold text-center mb-4 text-green-800">Church Events</h3>
-          <p class="text-gray-600 text-center mb-4">Special rates for Christmas and New Year services</p>
-          <ul class="space-y-2 mb-6">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Worship sessions</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Carol performances</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Special hymns arrangement</span></li>
-          </ul>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
-          <div class="text-center mb-4"><span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">15% OFF</span></div>
-          <h3 class="text-xl font-bold text-center mb-4 text-green-800">Community Events</h3>
-          <p class="text-gray-600 text-center mb-4">Bringing festive cheer to your gatherings</p>
-          <ul class="space-y-2 mb-6">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Christmas parties</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Corporate events</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Family celebrations</span></li>
-          </ul>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-lg p-6 festive-card fade-in">
-          <div class="text-center mb-4"><span class="inline-block bg-red-500 text-white px-4 py-1 rounded-full text-sm font-bold">25% OFF</span></div>
-          <h3 class="text-xl font-bold text-center mb-4 text-green-800">Music Workshops</h3>
-          <p class="text-gray-600 text-center mb-4">Learn guitar and vocals this holiday season</p>
-          <ul class="space-y-2 mb-6">
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Beginner guitar lessons</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Worship song training</span></li>
-            <li class="flex items-center"><i class="fas fa-check text-green-500 mr-2"></i><span>Group sessions available</span></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="text-center mt-8 fade-in">
-        <p class="text-base sm:text-lg text-gray-700 mb-6">Offer valid until December 31st. Limited slots available!</p>
-        <a href="#contact" class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full text-base sm:text-lg font-semibold transition-all shadow-lg inline-flex items-center">
-          <i class="fas fa-gift mr-2"></i> Claim Your Festive Discount
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- Experience -->
-  <section id="experience" class="bg-gray-100">
-    <div class="container mx-auto px-4 md:px-6 py-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 fade-in">Experience & Highlights</h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-        <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
-          <div class="text-yellow-500 text-3xl mb-4"><i class="fas fa-chalkboard-teacher"></i></div>
-          <h3 class="text-xl font-bold mb-3">Music Teacher @MSCA</h3>
-          <p class="text-gray-600 mb-4">MSCA | 2023 - Present</p>
-          <p class="text-gray-700 text-sm sm:text-base">Teaching music theory, guitar, and vocal technique at the Morning Star Conservatory of Arts.</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
-          <div class="text-yellow-500 text-3xl mb-4"><i class="fas fa-church"></i></div>
-          <h3 class="text-xl font-bold mb-3">Music Ministry Contributor</h3>
-          <p class="text-gray-600 mb-4">2019 - Present</p>
-          <p class="text-gray-700 text-sm sm:text-base">Regular performances in church events and Christian community gatherings.</p>
-        </div>
-
-        <div class="bg-white rounded-xl shadow-lg p-6 card-hover fade-in">
-          <div class="text-yellow-500 text-3xl mb-4"><i class="fas fa-user-friends"></i></div>
-          <h3 class="text-xl font-bold mb-3">Artist Management</h3>
-          <p class="text-gray-600 mb-4">Determined Music (Acapella Duo — Sindisiwe Khumalo & Justice) | 2024 - Present</p>
-          <p class="text-gray-700 text-sm sm:text-base">Managing the dynamic acapella duo Determined Music — booking, promotion, and career development. I started managing them last year.</p>
-        </div>
-      </div>
-
-      <div class="mt-12 fade-in">
-        <h3 class="text-2xl font-bold text-center mb-6">Skills & Expertise</h3>
-        <div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-          <div class="bg-white rounded-lg p-4 text-center shadow-md">
-            <i class="fas fa-guitar text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
-            <p class="font-semibold text-sm sm:text-base">Acoustic Guitar</p>
-          </div>
-          <div class="bg-white rounded-lg p-4 text-center shadow-md">
-            <i class="fas fa-pen text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
-            <p class="font-semibold text-sm sm:text-base">Songwriting</p>
-          </div>
-          <div class="bg-white rounded-lg p-4 text-center shadow-md">
-            <i class="fas fa-microphone text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
-            <p class="font-semibold text-sm sm:text-base">Vocal Performance</p>
-          </div>
-          <div class="bg-white rounded-lg p-4 text-center shadow-md">
-            <i class="fas fa-video text-2xl sm:text-3xl text-yellow-500 mb-2"></i>
-            <p class="font-semibold text-sm sm:text-base">Digital Content Creation</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Influences -->
-  <section id="influences" class="bg-white">
-    <div class="container mx-auto px-4 md:px-6 py-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 fade-in">Musical Influences</h2>
-
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 fade-in">
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Oliver Mtukudzi</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Jonathan Ogden</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Cageless Birds</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Jonathan Butler</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Nat King Cole</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">Eric Clapton</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">The Beatles</p></div>
-        <div class="text-center p-4 rounded-lg bg-gray-50 hover:bg-yellow-50 transition-colors"><p class="font-semibold">BB King</p></div>
-      </div>
-
-      <div class="mt-10 text-center fade-in">
-        <p class="text-base sm:text-lg max-w-3xl mx-auto">"Drawing inspiration from both local Zimbabwean legends and international icons, my music reflects a blend of cultural richness and universal appeal."</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact" class="bg-gray-900 text-white">
-    <div class="container mx-auto px-4 md:px-6 py-12">
-      <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 fade-in">Get In Touch</h2>
-
-      <div class="flex flex-col lg:flex-row justify-between gap-8 md:gap-12">
-        <div class="lg:w-1/2 mb-8 lg:mb-0 fade-in">
-          <h3 class="text-2xl font-bold mb-6">Booking & Inquiries</h3>
-          <p class="text-base sm:text-lg mb-6">Interested in booking The Unspoken E for your church event, concert, or community gathering? Reach out through any of the channels below.</p>
-
-          <div class="space-y-4 mb-8">
-            <div class="flex items-center"><i class="fas fa-envelope text-yellow-500 mr-4"></i><span>unspokenemusic@gmail.com</span></div>
-            <div class="flex items-center"><i class="fas fa-map-marker-alt text-yellow-500 mr-4"></i><span>Zimbabwe</span></div>
-            <div class="flex items-center"><i class="fab fa-whatsapp text-yellow-500 mr-4"></i><span>+263 78 219 0381</span></div>
-          </div>
-
-          <div class="flex space-x-4 md:space-x-6">
-            <a href="#" class="bg-blue-700 hover:bg-blue-800 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center"><i class="fab fa-youtube text-white"></i></a>
-            <a href="#" class="bg-pink-600 hover:bg-pink-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center"><i class="fab fa-instagram text-white"></i></a>
-            <a href="#" class="bg-blue-600 hover:bg-blue-700 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center"><i class="fab fa-facebook-f text-white"></i></a>
-            <a href="https://wa.me/263782190381" class="bg-green-500 hover:bg-green-600 w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center" target="_blank"><i class="fab fa-whatsapp text-white"></i></a>
-          </div>
-        </div>
-
-        <div class="lg:w-1/2 fade-in">
-          <h3 class="text-2xl font-bold mb-6">Send a Message via WhatsApp</h3>
-          <form id="whatsapp-form" class="space-y-4">
-            <div>
-              <label for="name" class="block mb-2">Your Name</label>
-              <input type="text" id="name" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none" required>
-            </div>
-            <div>
-              <label for="email" class="block mb-2">Your Email</label>
-              <input type="email" id="email" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none">
-            </div>
-            <div>
-              <label for="event-type" class="block mb-2">Event Type</label>
-              <select id="event-type" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none">
-                <option value="">Select an option</option>
-                <option>Church Service</option>
-                <option>Wedding</option>
-                <option>Concert</option>
-                <option>Community Event</option>
-                <option>Music Workshop</option>
-                <option>Other</option>
-              </select>
-            </div>
-            <div>
-              <label for="message" class="block mb-2">Your Message</label>
-              <textarea id="message" rows="4" class="w-full px-4 py-3 rounded-lg bg-gray-800 border border-gray-700 focus:outline-none" required></textarea>
-            </div>
-            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg w-full flex items-center justify-center">
-              <i class="fab fa-whatsapp mr-2"></i> Send via WhatsApp
-            </button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-gray-800 text-white py-8">
-    <div class="container mx-auto px-4 md:px-6 text-center">
-      <p class="text-sm sm:text-base">&copy; 2023 The Unspoken E. All rights reserved.</p>
-      <p class="mt-2 text-gray-400 text-sm">Christian Artist | Guitarist | Songwriter | Vocalist</p>
-    </div>
-  </footer>
-
-  <!-- Dev credit -->
-  <div class="bg-[#0f1724] text-white py-3 text-center">
-    <p class="text-sm">Website developed by <strong>Takudzwa Mbano</strong> | <a href="https://wa.me/919588511784" class="text-yellow-300 underline" target="_blank">WhatsApp me</a></p>
-  </div>
-
-  <script>
-    // ---------- Layout helpers ----------
-    function setNavHeight() {
-      const nav = document.getElementById('navbar');
-      if (!nav) return;
-      const height = nav.offsetHeight;
-      document.documentElement.style.setProperty('--nav-height', height + 'px');
-      document.body.style.paddingTop = height + 'px';
-    }
-
-    // Run on load and resize/orientation change
-    window.addEventListener('load', () => { setNavHeight(); });
-    window.addEventListener('resize', () => { setNavHeight(); });
-    window.addEventListener('orientationchange', () => { setTimeout(setNavHeight, 220); });
-
-    // ---------- Mobile menu ----------
-    (function setupMobileMenu(){
-      const btn = document.getElementById('mobile-menu-button');
-      const menu = document.getElementById('mobile-menu');
-      if (!btn || !menu) return;
-
-      btn.addEventListener('click', (e) => {
-        const expanded = btn.getAttribute('aria-expanded') === 'true';
-        btn.setAttribute('aria-expanded', String(!expanded));
-        menu.classList.toggle('hidden');
-        menu.classList.toggle('block');
-        menu.setAttribute('aria-hidden', String(expanded));
-      });
-
-      // close when link clicked
-      menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-        menu.classList.add('hidden');
-        menu.classList.remove('block');
-        btn.setAttribute('aria-expanded', 'false');
-        menu.setAttribute('aria-hidden', 'true');
-      }));
-
-      // close on outside click
-      document.addEventListener('click', (ev) => {
-        const isInsideNav = document.getElementById('navbar').contains(ev.target);
-        if (!isInsideNav && !menu.classList.contains('hidden')) {
-          menu.classList.add('hidden');
-          menu.classList.remove('block');
-          btn.setAttribute('aria-expanded', 'false');
-          menu.setAttribute('aria-hidden', 'true');
-        }
-      });
-    })();
-
-    // ---------- Fade-in observer ----------
-    (function fadeInObserver(){
-      const els = document.querySelectorAll('.fade-in');
-      if (!els.length) return;
-      const obs = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-      }, { threshold: 0.08 });
-      els.forEach(el => obs.observe(el));
-    })();
-
-    // ---------- WhatsApp form ----------
-    (function whatsappForm(){
-      const form = document.getElementById('whatsapp-form');
-      if (!form) return;
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const name = encodeURIComponent(document.getElementById('name').value || '');
-        const email = encodeURIComponent(document.getElementById('email').value || '');
-        const eventType = encodeURIComponent(document.getElementById('event-type').value || '');
-        const message = encodeURIComponent(document.getElementById('message').value || '');
-        let whatsappMessage = `Hello Ethan! I'm interested in booking you for an event.%0A%0A`;
-        whatsappMessage += `*Name:* ${name}%0A`;
-        if (email) whatsappMessage += `*Email:* ${email}%0A`;
-        if (eventType) whatsappMessage += `*Event Type:* ${eventType}%0A`;
-        whatsappMessage += `*Message:* ${message}%0A%0A`;
-        whatsappMessage += `I came across your website and would like to discuss further details.`;
-        window.open(`https://wa.me/263782190381?text=${whatsappMessage}`, '_blank');
-        form.reset();
-      });
-    })();
-
-    // ---------- Anchor click fallback that respects nav height ----------
-    (function anchorFix(){
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e){
-          const href = this.getAttribute('href');
-          if (!href || href === '#') return;
-          const target = document.querySelector(href);
-          if (!target) return;
-          e.preventDefault();
-          const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 0;
-          const rect = target.getBoundingClientRect();
-          const absoluteTop = window.pageYOffset + rect.top - navHeight;
-          window.scrollTo({ top: absoluteTop, behavior: 'smooth' });
-        });
-      });
-    })();
-  </script>
 </body>
 </html>
-
-
-
